@@ -38,9 +38,9 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
     public static String UPDATE_FAILED = "update_failed";
 
     public static String IN_APP_UPDATE_RESULT_KEY = "in_app_update_result";
-    public static String IN_APP_UPDATE_STATE_KEY = "in_app_update_state";
+    public static String IN_APP_UPDATE_STATUS_KEY = "in_app_update_status";
 
-    public static int IN_APP_UPDATE_REQUEST_CODE = 34213956;
+    public static int IN_APP_UPDATE_REQUEST_CODE = 42139;
 
     private boolean subscribedToUpdateStatuses = false;
 
@@ -50,6 +50,7 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
         // Creates instance of the manager.
         appUpdateManager = AppUpdateManagerFactory.create(this.getReactApplicationContext());
         appUpdateManager.registerListener(this);
+        reactContext.addActivityEventListener(this);
     }
 
     @Override
@@ -61,8 +62,8 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
 
-        constants.put(IN_APP_UPDATE_RESULT_KEY, IN_APP_UPDATE_RESULT_KEY);
-        constants.put(IN_APP_UPDATE_STATE_KEY, IN_APP_UPDATE_STATE_KEY);
+        constants.put("IN_APP_UPDATE_RESULT_KEY", IN_APP_UPDATE_RESULT_KEY);
+        constants.put("IN_APP_UPDATE_STATUS_KEY", IN_APP_UPDATE_STATUS_KEY);
 
         constants.put("UPDATE_AVAILABLE", UpdateAvailability.UPDATE_AVAILABLE);
         constants.put("UPDATE_NOT_AVAILABLE", UpdateAvailability.UPDATE_NOT_AVAILABLE);
@@ -125,8 +126,8 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
                     appUpdateManager.startUpdateFlowForResult(
                         // Pass the intent that is returned by 'getAppUpdateInfo()'.
                         appUpdateInfo,
-                        // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
-                        AppUpdateType.IMMEDIATE,
+                        // 'AppUpdateType.IMMEDIATE' Or 'AppUpdateType.FLEXIBLE'
+                        updateType,
                         // The current activity making the update request.
                         getCurrentActivity(),
                         // Include a request code to later monitor this update request.
@@ -145,7 +146,7 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
     public void onStateUpdate(InstallState state) {
         if (subscribedToUpdateStatuses) {
             int curStatus = state.installStatus();
-            emitToJS(IN_APP_UPDATE_STATE_KEY, curStatus+"");
+            emitToJS(IN_APP_UPDATE_STATUS_KEY, curStatus+"");
         }
     }
 
@@ -154,7 +155,7 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
         if (requestCode != IN_APP_UPDATE_REQUEST_CODE) {
             return;
         }
-        emitToJS(IN_APP_UPDATE_RESULT_KEY, (resultCode == RESULT_OK ? UPDATE_COMPLETE : UPDATE_FAILED)+": result :"+resultCode);
+        emitToJS(IN_APP_UPDATE_RESULT_KEY, (resultCode == RESULT_OK ? UPDATE_COMPLETE : UPDATE_FAILED)+":"+resultCode);
     }
 
     @Override

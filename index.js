@@ -1,5 +1,2 @@
-import { NativeModules } from 'react-native';
-
-const { SpInAppUpdates } = NativeModules;
-
-export default SpInAppUpdates;
+import InUppUpdatesModule from './lib';
+export default InUppUpdatesModule;
