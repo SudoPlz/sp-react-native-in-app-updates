@@ -34,17 +34,17 @@ Because to this day I'm not aware of any react-native libraries that use play co
 Where: 
 `CheckOptions`
 
-| Result | Type  | Description  |
+| Options | Type  | Description  |
 |---|---|---|
-| shouldUpdate  | Boolean | Wether there's a newer version on the store or not  |
+| curVersion  | (required) String | The semver of your current app version  |
 |  toSemverConverter | (optional) Function  |  This will run right after the store version is fetched in case you want to change it before it's compared as a semver |
 |  customVersionComparator | (optional) Function  | By default this library uses `semver` behind the scenes to compare the store version with the `curVersion` value, but you can pass your own version comparator if you want to |
 
 and `CheckResult`:
 
-| Option | Type  | Description  |
+| Result | Type  | Description  |
 |---|---|---|
-| curVersion  | (required) String | The semver of your current app version  |
+| shouldUpdate  | Boolean | Wether there's a newer version on the store or not  |
 |  storeVersion | String  |  The latest app/play store version we're aware of |
 |  other | Object  | Other info returned from the store (differs on Android/iOS) |
 
