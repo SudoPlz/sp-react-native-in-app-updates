@@ -35,7 +35,6 @@ buildscript {
         }
         dependencies {
             classpath 'com.android.tools.build:gradle:3.4.1'
-            implementation "com.google.android.play:core:${safeExtGet('playCoreVersion', DEFAULT_PLAY_CORE_VERSION)}"
         }
     }
 }
@@ -75,6 +74,7 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
+    implementation "com.google.android.play:core:${safeExtGet('playCoreVersion', DEFAULT_PLAY_CORE_VERSION)}"
 }
 
 def configureReactNativePom(def pom) {
