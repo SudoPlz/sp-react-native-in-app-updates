@@ -10,8 +10,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/sp-react-native-in-app-updates.git",
-    "baseUrl": "https://github.com/github_account/sp-react-native-in-app-updates"
+    "url": "git+https://github.com/SudoPlz/sp-react-native-in-app-updates.git",
+    "baseUrl": "https://github.com/SudoPlz/sp-react-native-in-app-updates"
   },
   "keywords": [
     "react-native"
@@ -33,7 +33,7 @@
     "react-native": ">=0.60.0-rc.0 <1.0.x"
   },
   "devDependencies": {
-    "react": "^16.9.0",
-    "react-native": "^0.61.5"
+    "react": "16.13.1",
+    "react-native": "0.63.1"
   }
 }
