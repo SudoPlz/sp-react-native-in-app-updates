@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.sudoplz.rninappupdates;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.content.IntentSender;
 import android.util.Log;
 
 import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
@@ -48,11 +49,12 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
     public SpInAppUpdatesModule(ReactApplicationContext reactContext) {
         super(reactContext);
         // Creates instance of the manager.
-        appUpdateManager = AppUpdateManagerFactory.create(this.getReactApplicationContext());
+        appUpdateManager = AppUpdateManagerFactory.create(reactContext);
         appUpdateManager.registerListener(this);
         reactContext.addActivityEventListener(this);
     }
 
+    @NonNull
     @Override
     public String getName() {
         return "SpInAppUpdates";
@@ -165,10 +167,10 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
 
 
     @MainThread
-    private boolean emitToJS(String key, String value) {
+    private void emitToJS(String key, String value) {
         ReactContext reactContext = this.getReactApplicationContext();
         if (reactContext == null || !reactContext.hasActiveCatalystInstance()) {
-            return false;
+            return;
         }
 
         try {
@@ -177,9 +179,6 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
             ).emit(key, value);
         } catch (Exception e) {
             Log.wtf("InAppUpdates_EMITTER", "Error sending Event: sp_in_app_updates_" + key, e);
-            return false;
         }
-
-        return true;
     }
 }

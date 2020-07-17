@@ -10,8 +10,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/sp-react-native-in-app-updates.git",
-    "baseUrl": "https://github.com/github_account/sp-react-native-in-app-updates"
+    "url": "git+https://github.com/SudoPlz/sp-react-native-in-app-updates.git",
+    "baseUrl": "https://github.com/SudoPlz/sp-react-native-in-app-updates"
   },
   "keywords": [
     "react-native"

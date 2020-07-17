@@ -1,6 +1,7 @@
-package com.reactlibrary;
+package com.sudoplz.rninappupdates;
 
-import java.util.Arrays;
+import androidx.annotation.NonNull;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -8,16 +9,17 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
-import com.facebook.react.bridge.JavaScriptModule;
 
 public class SpInAppUpdatesPackage implements ReactPackage {
+    @NonNull
     @Override
-    public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new SpInAppUpdatesModule(reactContext));
+    public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
+        return Collections.singletonList(new SpInAppUpdatesModule(reactContext));
     }
 
+    @NonNull
     @Override
-    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+    public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactContext) {
         return Collections.emptyList();
     }
 }
