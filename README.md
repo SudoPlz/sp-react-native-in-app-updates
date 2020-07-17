@@ -10,7 +10,7 @@
 On **iOS** you may need to also add the following lines in your Info.plist to be able to launch the store deep link.
 
 ```
-<key>LSApplicationQueriesSchemes</key>
+	<key>LSApplicationQueriesSchemes</key>
 	<array>
 	   <string>itms-apps</string>
 	</array>
