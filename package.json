@@ -1,7 +1,7 @@
 {
   "name": "sp-react-native-in-app-updates",
   "title": "Sp In App Updates",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Handles Android native updates in app by using play-core",
   "main": "index.js",
   "scripts": {
