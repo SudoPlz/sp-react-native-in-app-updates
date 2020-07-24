@@ -20,6 +20,16 @@
     "name": "Ioannis Kokkinidis",
     "email": "sudoplz@gmail.com"
   },
+  "maintainers": [
+    {
+      "name": "Ioannis Kokkinidis",
+      "email": "sudoplz@gmail.com"
+    },
+    {
+      "name": "Gustavo Parreira",
+      "email": "gustavotcparreira@gmail.com"
+    }
+  ],
   "license": "MIT",
   "licenseFilename": "LICENSE",
   "readmeFilename": "README.md",
