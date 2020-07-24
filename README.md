@@ -1,5 +1,7 @@
 # sp-react-native-in-app-updates
 
+![In app update example](https://user-images.githubusercontent.com/8539174/88419625-6db0ef00-cddd-11ea-814e-389db852368b.gif)
+
 ## Getting started
 
 ## Installation
