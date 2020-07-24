@@ -15,6 +15,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
@@ -23,6 +24,7 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.InstallState;
 import com.google.android.play.core.install.InstallStateUpdatedListener;
 import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.Task;
 
@@ -71,6 +73,14 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
         constants.put("UPDATE_NOT_AVAILABLE", UpdateAvailability.UPDATE_NOT_AVAILABLE);
         constants.put("UPDATE_UNKNOWN", UpdateAvailability.UNKNOWN);
         constants.put("UPDATE_DEV_TRIGGERED", UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS);
+
+        constants.put("UPDATE_CANCELED", InstallStatus.CANCELED);
+        constants.put("UPDATE_DOWNLOADED", InstallStatus.DOWNLOADED);
+        constants.put("UPDATE_DOWNLOADING", InstallStatus.DOWNLOADING);
+        constants.put("UPDATE_FAILED", InstallStatus.FAILED);
+        constants.put("UPDATE_INSTALLED", InstallStatus.INSTALLED);
+        constants.put("UPDATE_INSTALLING", InstallStatus.INSTALLING);
+        constants.put("UPDATE_PENDING", InstallStatus.PENDING);
 
         constants.put("APP_UPDATE_IMMEDIATE", AppUpdateType.IMMEDIATE);
         constants.put("APP_UPDATE_FLEXIBLE", AppUpdateType.FLEXIBLE);
@@ -143,12 +153,22 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
         });
     }
 
+    @ReactMethod
+    public void installUpdate() {
+        appUpdateManager.completeUpdate();
+    }
+
 
     @Override
     public void onStateUpdate(InstallState state) {
         if (subscribedToUpdateStatuses) {
-            int curStatus = state.installStatus();
-            emitToJS(IN_APP_UPDATE_STATUS_KEY, curStatus+"");
+            WritableMap data = Arguments.createMap();
+
+            data.putInt("status", state.installStatus());
+            data.putString("bytesDownloaded", state.bytesDownloaded()+"");
+            data.putString("totalBytesToDownload", state.totalBytesToDownload()+"");
+
+            emitToJS(IN_APP_UPDATE_STATUS_KEY, data);
         }
     }
 
@@ -176,6 +196,22 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
         try {
             reactContext.getJSModule(
                 DeviceEventManagerModule.RCTDeviceEventEmitter.class
+            ).emit(key, value);
+        } catch (Exception e) {
+            Log.wtf("InAppUpdates_EMITTER", "Error sending Event: sp_in_app_updates_" + key, e);
+        }
+    }
+
+    @MainThread
+    private void emitToJS(String key, ReadableMap value) {
+        ReactContext reactContext = this.getReactApplicationContext();
+        if (reactContext == null || !reactContext.hasActiveCatalystInstance()) {
+            return;
+        }
+
+        try {
+            reactContext.getJSModule(
+                    DeviceEventManagerModule.RCTDeviceEventEmitter.class
             ).emit(key, value);
         } catch (Exception e) {
             Log.wtf("InAppUpdates_EMITTER", "Error sending Event: sp_in_app_updates_" + key, e);
