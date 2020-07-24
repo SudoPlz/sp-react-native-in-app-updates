@@ -31,6 +31,8 @@ Because to this day I'm not aware of any react-native libraries that use play co
 
 ##### `checkNeedsUpdate(checkOptions: CheckOptions) : CheckResult`
 
+Checks if there are any updates available.
+
 Where: 
 `CheckOptions`
 
@@ -52,6 +54,8 @@ and `CheckResult`:
 
 ##### `startUpdate(checkOptions: UpdateOptions) : Promise`
 
+Shows pop-up asking user if they want to update, giving them the option to download said update.
+
 Where: 
 `UpdateOptions `
 
@@ -64,6 +68,39 @@ Where:
 |  buttonCancelText (iOS only) | (optional) String  |  The text of the cancelation button on the alert prompt (default: `Cancel`)|
 |  forceUpgrade (iOS only) | (optional) Boolean  |  If set to true the user won't be able to cancel the upgrade (default: false)|
 
+##### `installUpdate() : void` (Android only)
+
+Installs a downloaded update.
+
+##### `addStatusUpdateListener(callback: (status: UpdateStatus) : void) : void` (Android only)
+
+Adds a listener for tracking the current status of the update download.
+
+Where: `UpdateStatus`
+
+| Option | Type  | Description  |
+|---|---|---|
+|  status | int | One of `DownloadStatusEnum` |
+|  bytesDownloaded | int | How many bytes were already downloaded |
+|  totalBytesToDownload | int | The total amount of bytes in the update |
+
+Where: `DownloadStatusEnum`
+
+`SpInAppUpdates.UPDATE_STATUS.AVAILABLE` |
+`SpInAppUpdates.UPDATE_STATUS.DEVELOPER_TRIGGERED` |
+`SpInAppUpdates.UPDATE_STATUS.UNAVAILABLE` |
+`SpInAppUpdates.UPDATE_STATUS.UNKNOWN` |
+`SpInAppUpdates.UPDATE_STATUS.UPDATE_CANCELED` |
+`SpInAppUpdates.UPDATE_STATUS.UPDATE_DOWNLOADED` |
+`SpInAppUpdates.UPDATE_STATUS.UPDATE_DOWNLOADING` |
+`SpInAppUpdates.UPDATE_STATUS.UPDATE_FAILED` |
+`SpInAppUpdates.UPDATE_STATUS.UPDATE_INSTALLED` |
+`SpInAppUpdates.UPDATE_STATUS.UPDATE_INSTALLING` |
+`SpInAppUpdates.UPDATE_STATUS.UPDATE_PENDING`
+
+##### `removeStatusUpdateListener(callback: (status: UpdateStatus) : void): void`
+
+Removes an existing download status listener.
 
 ##Example:
 
