@@ -100,7 +100,7 @@ Where: `DownloadStatusEnum`
 `SpInAppUpdates.UPDATE_STATUS.UPDATE_INSTALLING` |
 `SpInAppUpdates.UPDATE_STATUS.UPDATE_PENDING`
 
-##### `removeStatusUpdateListener(callback: (status: UpdateStatus) : void): void`
+##### `removeStatusUpdateListener(callback: (status: UpdateStatus) : void): void` (Android only)
 
 Removes an existing download status listener.
 
