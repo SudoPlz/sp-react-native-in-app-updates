@@ -48,7 +48,7 @@ and `CheckResult`:
 
 | Result | Type  | Description  |
 |---|---|---|
-| shouldUpdate  | Boolean | Wether there's a newer version on the store or not  |
+|  shouldUpdate  | Boolean | Wether there's a newer version on the store or not  |
 |  storeVersion | String  |  The latest app/play store version we're aware of |
 |  other | Object  | Other info returned from the store (differs on Android/iOS) |
 
@@ -86,7 +86,7 @@ Where: `UpdateStatus`
 |  bytesDownloaded | int | How many bytes were already downloaded |
 |  totalBytesToDownload | int | The total amount of bytes in the update |
 
-Where: `DownloadStatusEnum`
+and: `DownloadStatusEnum`
 
 `SpInAppUpdates.UPDATE_STATUS.AVAILABLE` |
 `SpInAppUpdates.UPDATE_STATUS.DEVELOPER_TRIGGERED` |
