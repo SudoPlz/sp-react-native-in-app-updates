@@ -110,6 +110,7 @@ Removes an existing download status listener.
 import SpInAppUpdates from 'sp-react-native-in-app-updates';
 
 const inAppUpdates = new SpInAppUpdates();
+const HIGH_PRIORITY_UPDATE = 5; // Arbitrary, depends on how you handle priority in the Play Console
 
 inAppUpdates.checkNeedsUpdate({
   curVersion: '4.8.8',
@@ -124,8 +125,12 @@ inAppUpdates.checkNeedsUpdate({
   })
 }).then(result => {
   if (result.shouldUpdate) {
+      const updateType = result.other.updatePriority >= HIGH_PRIORITY_UPDATE
+          ? SpInAppUpdates.UPDATE_TYPE.IMMEDIATE
+          : SpInAppUpdates.UPDATE_TYPE.FLEXIBLE;
+
 	  inAppUpdates.startUpdate({
-	    updateType: SpInAppUpdates.UPDATE_TYPE.FLEXIBLE // android only, on iOS the user will be promped to go to your app store page
+	    updateType, // android only, on iOS the user will be promped to go to your app store page
 	  })
   }
 })
