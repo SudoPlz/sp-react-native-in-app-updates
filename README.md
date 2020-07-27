@@ -48,7 +48,7 @@ and `CheckResult`:
 
 | Result | Type  | Description  |
 |---|---|---|
-| shouldUpdate  | Boolean | Wether there's a newer version on the store or not  |
+|  shouldUpdate  | Boolean | Wether there's a newer version on the store or not  |
 |  storeVersion | String  |  The latest app/play store version we're aware of |
 |  other | Object  | Other info returned from the store (differs on Android/iOS) |
 
@@ -86,7 +86,7 @@ Where: `UpdateStatus`
 |  bytesDownloaded | int | How many bytes were already downloaded |
 |  totalBytesToDownload | int | The total amount of bytes in the update |
 
-Where: `DownloadStatusEnum`
+and: `DownloadStatusEnum`
 
 `SpInAppUpdates.UPDATE_STATUS.AVAILABLE` |
 `SpInAppUpdates.UPDATE_STATUS.DEVELOPER_TRIGGERED` |
@@ -110,6 +110,7 @@ Removes an existing download status listener.
 import SpInAppUpdates from 'sp-react-native-in-app-updates';
 
 const inAppUpdates = new SpInAppUpdates();
+const HIGH_PRIORITY_UPDATE = 5; // Arbitrary, depends on how you handle priority in the Play Console
 
 inAppUpdates.checkNeedsUpdate({
   curVersion: '4.8.8',
@@ -124,8 +125,12 @@ inAppUpdates.checkNeedsUpdate({
   })
 }).then(result => {
   if (result.shouldUpdate) {
+      const updateType = result.other.updatePriority >= HIGH_PRIORITY_UPDATE
+          ? SpInAppUpdates.UPDATE_TYPE.IMMEDIATE
+          : SpInAppUpdates.UPDATE_TYPE.FLEXIBLE;
+
 	  inAppUpdates.startUpdate({
-	    updateType: SpInAppUpdates.UPDATE_TYPE.FLEXIBLE // android only, on iOS the user will be promped to go to your app store page
+	    updateType, // android only, on iOS the user will be promped to go to your app store page
 	  })
   }
 })
