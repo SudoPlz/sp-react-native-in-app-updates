@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Attach to packager",
+        "cwd": "${workspaceFolder}",
+        "type": "reactnative",
+        "request": "attach",
+        "sourceMaps": true
+      },
+  
+      // Caution: Use either one of the settings below on jest test
+      //"program": "${workspaceRoot}/node_modules/jest-cli/bin/jest", OR "program": "${workspaceRoot}/node_modules/jest-cli/bin/jest", depending on what we have installed
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Jest Tests",
+        "program": "${workspaceRoot}/node_modules/jest/bin/jest",
+        "args": [
+            "-i"
+        ],
+        "internalConsoleOptions": "openOnSessionStart",
+        "outFiles": [
+            "${workspaceRoot}/dist/**/*"
+        ],
+        // "env": { // Only use that if you want to simulate a different JS Date timezone
+        //   "TZ": "America/New_York"
+        // },
+      }
+    ]
+  }
