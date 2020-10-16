@@ -1,3 +1,4 @@
+// @ts-expect-error
 import { NativeEventEmitter } from "react-native";
 import EventListenerCollection from "./EventListenerCollection";
 
@@ -6,6 +7,7 @@ export default class InAppUpdatesBase {
     protected statusUpdateListeners: EventListenerCollection;
     protected resultListeners: EventListenerCollection;
     protected eventEmitter?: NativeEventEmitter;
+    protected prototype;
     
     constructor() {
         this.name = 'sp-react-native-in-app-updates';

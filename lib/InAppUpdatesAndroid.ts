@@ -1,6 +1,7 @@
 import {
     NativeModules,
     NativeEventEmitter,
+    Platform,
 } from 'react-native';
 import _ from 'underscore';
 
@@ -14,23 +15,23 @@ import {
 import InAppUpdatesBase from './InAppUpdatesBase';
 
 const { SpInAppUpdates } = NativeModules;
-
+const SpInAppUpdatesOrEmpty = SpInAppUpdates || {};
 export const UPDATE_STATUS = {
-    AVAILABLE: SpInAppUpdates.UPDATE_AVAILABLE,
-    UNAVAILABLE: SpInAppUpdates.UPDATE_NOT_AVAILABLE,
-    UNKNOWN: SpInAppUpdates.UPDATE_UNKNOWN,
-    DEVELOPER_TRIGGERED: SpInAppUpdates.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS,
-    UPDATE_CANCELED: SpInAppUpdates.UPDATE_CANCELED,
-    UPDATE_DOWNLOADED: SpInAppUpdates.UPDATE_DOWNLOADED,
-    UPDATE_DOWNLOADING: SpInAppUpdates.UPDATE_DOWNLOADING,
-    UPDATE_FAILED: SpInAppUpdates.UPDATE_FAILED,
-    UPDATE_INSTALLED: SpInAppUpdates.UPDATE_INSTALLED,
-    UPDATE_INSTALLING: SpInAppUpdates.UPDATE_INSTALLING,
-    UPDATE_PENDING: SpInAppUpdates.UPDATE_PENDING,
+    AVAILABLE: SpInAppUpdatesOrEmpty.UPDATE_AVAILABLE,
+    UNAVAILABLE: SpInAppUpdatesOrEmpty.UPDATE_NOT_AVAILABLE,
+    UNKNOWN: SpInAppUpdatesOrEmpty.UPDATE_UNKNOWN,
+    DEVELOPER_TRIGGERED: SpInAppUpdatesOrEmpty.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS,
+    UPDATE_CANCELED: SpInAppUpdatesOrEmpty.UPDATE_CANCELED,
+    UPDATE_DOWNLOADED: SpInAppUpdatesOrEmpty.UPDATE_DOWNLOADED,
+    UPDATE_DOWNLOADING: SpInAppUpdatesOrEmpty.UPDATE_DOWNLOADING,
+    UPDATE_FAILED: SpInAppUpdatesOrEmpty.UPDATE_FAILED,
+    UPDATE_INSTALLED: SpInAppUpdatesOrEmpty.UPDATE_INSTALLED,
+    UPDATE_INSTALLING: SpInAppUpdatesOrEmpty.UPDATE_INSTALLING,
+    UPDATE_PENDING: SpInAppUpdatesOrEmpty.UPDATE_PENDING,
 };
 export const UPDATE_TYPE = {
-    IMMEDIATE: SpInAppUpdates.APP_UPDATE_IMMEDIATE,
-    FLEXIBLE: SpInAppUpdates.APP_UPDATE_FLEXIBLE,
+    IMMEDIATE: SpInAppUpdatesOrEmpty.APP_UPDATE_IMMEDIATE,
+    FLEXIBLE: SpInAppUpdatesOrEmpty.APP_UPDATE_FLEXIBLE,
 };
 
 export type UpdateTypeKey = keyof typeof UPDATE_TYPE;
@@ -41,15 +42,15 @@ export type InAppUpdateExtras = {
     updateAvailability: UpdateStatusValue;
     versionCode: SemverVersionCode;
 };
-export interface NeedsUpdateResponseNative extends NeedsUpdateResponse {
+export interface NeedsUpdateResponseAndroid extends NeedsUpdateResponse {
     other: InAppUpdateExtras;
 }
-export interface StartUpdateOptionsAndroid {
+export type StartUpdateOptionsAndroid = {
     updateType: UpdateTypeValue;
 }
 
 
-export default class InAppUpdatesNative extends InAppUpdatesBase {
+export default class InAppUpdatesAndroid extends InAppUpdatesBase {
     constructor() {
         super();
         this.eventEmitter = new NativeEventEmitter(SpInAppUpdates);
@@ -98,7 +99,7 @@ export default class InAppUpdatesNative extends InAppUpdatesBase {
     /**
      * Checks if there are any updates available.
      */
-    public checkNeedsUpdate = (checkOptions: CheckOptions): Promise<NeedsUpdateResponseNative> => {
+    public checkNeedsUpdate = (checkOptions: CheckOptions): Promise<NeedsUpdateResponse> => {
         const {
             curVersion,
             toSemverConverter,

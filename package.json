@@ -3,7 +3,7 @@
   "title": "Sp In App Updates",
   "version": "0.1.1",
   "description": "Handles Android native updates in app by using play-core",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "copyAssets": "sh ./scripts/copyAssets.sh"
@@ -37,6 +37,9 @@
     "underscore": "1.10.2",
     "semver": "7.2.1",
     "react-native-siren": "0.0.3"
+  },
+  "resolutions": {
+    "react-native-device-info": "^6.2.1"
   },
   "peerDependencies": {
     "react": "^16.8.1",
