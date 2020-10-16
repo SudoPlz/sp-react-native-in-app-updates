@@ -4,6 +4,7 @@ import SpInAppUpdates, {
   NeedsUpdateResponseAndroid,
   SemverVersion,
   NeedsUpdateResponse,
+  IncomingStatusUpdateEvent,
 } from 'sp-react-native-in-app-updates';
 import {
   SafeAreaView,
@@ -17,13 +18,15 @@ import {
 
 const HIGH_PRIORITY_UPDATE = 5; // Arbitrary, depends on how you handle priority in the Play Console
 type AppState = {
-  needsUpdate: boolean
+  needsUpdate: boolean,
+  otherData: NeedsUpdateResponseAndroid
 }
 export default class App extends React.Component<{}, AppState> {
   private inAppUpdates: SpInAppUpdates;
 
   state = {
     needsUpdate: false,
+    otherData: null,
   }
 
   constructor(props: any) {
@@ -46,6 +49,7 @@ export default class App extends React.Component<{}, AppState> {
     }).then((result: NeedsUpdateResponse) => {
       this.setState({
         needsUpdate: result.shouldUpdate,
+        otherData: result,
       }, () => {
         alert('we dont need to update')
       })
@@ -55,22 +59,29 @@ export default class App extends React.Component<{}, AppState> {
   startUpdating() {
     if (this.state.needsUpdate) {
       let updateType;
-      if (Platform.OS === 'android') {
-        const otherData: NeedsUpdateResponseAndroid = result;
+      if (Platform.OS === 'android' && this.state.otherData) {
+        const otherData: NeedsUpdateResponseAndroid = this.state.otherData;
         updateType = otherData.updatePriority >= HIGH_PRIORITY_UPDATE
           ? UPDATE_TYPE.IMMEDIATE
           : UPDATE_TYPE.FLEXIBLE;
-      } else {
-
       }
-
-  
+      this.inAppUpdates.addStatusUpdateListener(this.onStatusUpdate);
       this.inAppUpdates.startUpdate({
         updateType, // android only, on iOS the user will be promped to go to your app store page
       })
     } else {
       alert('doesnt look like we need an update')
     }
+  }
+
+  onStatusUpdate = (status: IncomingStatusUpdateEvent) => {
+    const {
+      // status,
+      bytesDownloaded,
+      totalBytesToDownload,
+  } = status;
+  // do something
+  console.log(`@@ ${JSON.stringify(status)}`);
   }
 
   render() {
