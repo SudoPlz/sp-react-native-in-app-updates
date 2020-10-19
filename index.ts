@@ -15,6 +15,15 @@ export type {
     NeedsUpdateResponseIos,
 } from "./lib/InAppUpdatesIos";
 
+import {
+    StartUpdateOptionsIos,
+} from "./lib/InAppUpdatesIos";
+import type {
+    StartUpdateOptionsAndroid,
+} from "./lib/InAppUpdatesAndroid";
+
+export type StartUpdateOptions = StartUpdateOptionsIos | StartUpdateOptionsAndroid;
+
 export * from './lib/types';
 
 export default InAppUpdates;
