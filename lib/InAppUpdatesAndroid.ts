@@ -1,7 +1,6 @@
 import {
     NativeModules,
     NativeEventEmitter,
-    Platform,
 } from 'react-native';
 import _ from 'underscore';
 
@@ -11,6 +10,7 @@ import {
     CheckOptions,
     NeedsUpdateResponse,
     SemverVersionCode,
+    InstallationResult,
 } from './types';
 import InAppUpdatesBase from './InAppUpdatesBase';
 
@@ -58,7 +58,7 @@ export default class InAppUpdatesAndroid extends InAppUpdatesBase {
         this.eventEmitter.addListener(SpInAppUpdates.IN_APP_UPDATE_RESULT_KEY, this.onIncomingNativeResult);
     }
 
-    protected onIncomingNativeResult = (event) => {
+    protected onIncomingNativeResult = (event: InstallationResult) => {
         this.resultListeners.emitEvent(event);
     }
 

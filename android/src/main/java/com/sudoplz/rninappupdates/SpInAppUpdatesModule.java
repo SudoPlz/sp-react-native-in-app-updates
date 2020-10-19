@@ -37,9 +37,6 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
 
     private AppUpdateManager appUpdateManager = null;
 
-    public static String UPDATE_COMPLETE = "update_complete";
-    public static String UPDATE_FAILED = "update_failed";
-
     public static String IN_APP_UPDATE_RESULT_KEY = "in_app_update_result";
     public static String IN_APP_UPDATE_STATUS_KEY = "in_app_update_status";
 
@@ -178,7 +175,7 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
         if (requestCode != IN_APP_UPDATE_REQUEST_CODE) {
             return;
         }
-        emitToJS(IN_APP_UPDATE_RESULT_KEY, (resultCode == RESULT_OK ? UPDATE_COMPLETE : UPDATE_FAILED)+":"+resultCode);
+        emitToJS(IN_APP_UPDATE_RESULT_KEY, String.valueOf(resultCode == RESULT_OK ? InstallStatus.INSTALLED : InstallStatus.CANCELED));
     }
 
     @Override
