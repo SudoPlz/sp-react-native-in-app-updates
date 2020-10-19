@@ -63,14 +63,16 @@ export default class InAppUpdatesAndroid extends InAppUpdatesBase {
     }
 
     protected onIncomingNativeStatusUpdate = (event: IncomingStatusUpdateEvent) => {
-        let {bytesDownloaded, totalBytesToDownload} = event;
+        let {bytesDownloaded, totalBytesToDownload, status} = event;
         // This data comes from Java as a string, since React's WriteableMap doesn't support `long` type values.
         bytesDownloaded = parseInt(bytesDownloaded, 10);
         totalBytesToDownload = parseInt(totalBytesToDownload, 10);
+        status = parseInt(`${status}`, 10);
         this.statusUpdateListeners.emitEvent({
             ...event,
             bytesDownloaded,
             totalBytesToDownload,
+            status,
         });
     }
 

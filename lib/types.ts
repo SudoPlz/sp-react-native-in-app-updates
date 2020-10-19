@@ -1,6 +1,18 @@
+export enum InstallationStatus {
+    UNKNOWN = 0,
+    PENDING = 1,
+    DOWNLOADING = 2,
+    INSTALLING = 3,
+    INSTALLED = 4,
+    FAILED = 5,
+    CANCELED = 6,
+    DOWNLOADED = 11
+}
+
 export type IncomingStatusUpdateEvent = {
     bytesDownloaded: any;
     totalBytesToDownload: any;
+    status: InstallationStatus
 }
 
 /**
