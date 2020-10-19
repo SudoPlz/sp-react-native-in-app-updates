@@ -1,14 +1,16 @@
-// @ts-expect-error
-import InAppUpdates from './lib/index';
-export {
-    InAppUpdateExtras,
-    StartUpdateOptionsAndroid,
-    NeedsUpdateResponseAndroid,
-    UPDATE_TYPE,
-    UPDATE_STATUS,
-} from "./lib/InAppUpdatesAndroid";
+import InAppUpdates from './lib';
 
 export {
+    UPDATE_TYPE,
+    UPDATE_STATUS
+} from "./lib/InAppUpdatesAndroid";
+export type {
+    InAppUpdateExtras,
+    StartUpdateOptionsAndroid,
+    NeedsUpdateResponseAndroid
+} from "./lib/InAppUpdatesAndroid";
+
+export type {
     StartUpdateOptionsIos,
     NeedsUpdateResponseIos,
 } from "./lib/InAppUpdatesIos";
