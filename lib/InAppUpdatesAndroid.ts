@@ -117,7 +117,7 @@ export default class InAppUpdatesAndroid extends InAppUpdatesBase {
                 const { updateAvailability, versionCode } = inAppUpdateInfo || {};
 
                 if (updateAvailability === UPDATE_STATUS.AVAILABLE) {
-                    let newAppV = versionCode;
+                    let newAppV = `${versionCode}`;
                     if (toSemverConverter) {
                         newAppV = toSemverConverter(versionCode);
                         if (!newAppV) {

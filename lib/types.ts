@@ -29,12 +29,12 @@ export type CheckOptions = {
     /**
      * This will run right after the store version is fetched in case you want to change it before it's compared as a semver
      */
-    toSemverConverter?: Function;
+    toSemverConverter?: (version: SemverVersionCode) => SemverVersion;
 
     /**
      * By default this library uses semver behind the scenes to compare the store version with the curVersion value, but you can pass your own version comparator if you want to
      */
-    customVersionComparator?: Function;
+    customVersionComparator?: (v1: SemverVersion, v2: SemverVersion) => -1 | 0 | 1;
 }
 
 export type SemverVersion = string;
