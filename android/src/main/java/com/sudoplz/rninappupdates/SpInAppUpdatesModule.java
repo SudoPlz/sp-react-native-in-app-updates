@@ -94,6 +94,10 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
         // Returns an intent object that you use to check for an update.
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
 
+        appUpdateInfoTask.addOnFailureListener(err -> {
+            resolutionPromise.reject("Exception", err.toString());
+        });
+
         // Checks that the platform will allow the specified type of update.
         appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
             WritableMap map = Arguments.createMap();
@@ -124,6 +128,10 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
     public void startUpdate(int updateType, Promise resolutionPromise) {
         // Returns an intent object that you use to check for an update.
         Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+        appUpdateInfoTask.addOnFailureListener(err -> {
+            resolutionPromise.reject("Exception", err.toString());
+        });
 
         // Checks that the platform will allow the specified type of update.
         appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
