@@ -11,7 +11,7 @@ export enum InstallationStatus {
 
 export type InstallationResult = InstallationStatus.INSTALLED | InstallationStatus.CANCELED;
 
-export type IncomingStatusUpdateEvent = {
+export type StatusUpdateEvent = {
     bytesDownloaded: any;
     totalBytesToDownload: any;
     status: InstallationStatus

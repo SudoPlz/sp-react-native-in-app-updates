@@ -6,7 +6,7 @@ import _ from 'underscore';
 
 import { compareVersions } from './utils';
 import {
-    IncomingStatusUpdateEvent,
+    StatusUpdateEvent,
     CheckOptions,
     NeedsUpdateResponse,
     SemverVersionCode,
@@ -42,6 +42,8 @@ export type InAppUpdateExtras = {
     updateAvailability: UpdateStatusValue;
     versionCode: SemverVersionCode;
 };
+export type StatusEventListener = (status: StatusUpdateEvent) => void;
+export type IntentResultListener = (intentResult: InstallationResult) => void;
 export interface NeedsUpdateResponseAndroid extends NeedsUpdateResponse {
     other: InAppUpdateExtras;
 }
@@ -62,7 +64,7 @@ export default class InAppUpdatesAndroid extends InAppUpdatesBase {
         this.resultListeners.emitEvent(event);
     }
 
-    protected onIncomingNativeStatusUpdate = (event: IncomingStatusUpdateEvent) => {
+    protected onIncomingNativeStatusUpdate = (event: StatusUpdateEvent) => {
         let {bytesDownloaded, totalBytesToDownload, status} = event;
         // This data comes from Java as a string, since React's WriteableMap doesn't support `long` type values.
         bytesDownloaded = parseInt(bytesDownloaded, 10);
@@ -76,25 +78,25 @@ export default class InAppUpdatesAndroid extends InAppUpdatesBase {
         });
     }
 
-    public addStatusUpdateListener = (callback: any) => {
+    public addStatusUpdateListener = (callback: StatusEventListener) => {
         this.statusUpdateListeners.addListener(callback);
         if (this.statusUpdateListeners.hasListeners()) {
             SpInAppUpdates.setStatusUpdateSubscription(true);
         }
     }
 
-    public removeStatusUpdateListener = (callback: any) => {
+    public removeStatusUpdateListener = (callback: StatusEventListener) => {
         this.statusUpdateListeners.removeListener(callback);
         if (!this.statusUpdateListeners.hasListeners()) {
             SpInAppUpdates.setStatusUpdateSubscription(false);
         }
     }
 
-    public addIntentSelectionListener = (callback: any) => {
+    public addIntentSelectionListener = (callback: IntentResultListener) => {
         this.resultListeners.addListener(callback);
     }
 
-    public removeIntentSelectionListener = (callback: any) => {
+    public removeIntentSelectionListener = (callback: IntentResultListener) => {
         this.resultListeners.removeListener(callback);
     }
 
