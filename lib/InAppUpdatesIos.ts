@@ -92,7 +92,7 @@ export default class InAppUpdatesIos extends InAppUpdatesBase {
             if (updateIsAvailable) {
                 const versionCode = latestInfo && latestInfo.version;
                 if (versionCode) {
-                    let newAppV = versionCode;
+                    let newAppV = `${versionCode}`;
                     if (toSemverConverter) {
                         newAppV = toSemverConverter(versionCode);
                         if (!newAppV) {
