@@ -31,7 +31,7 @@ Because to this day I'm not aware of any react-native libraries that use play co
 
 ### Methods:
 
-##### `checkNeedsUpdate(checkOptions: CheckOptions) : CheckResult`
+##### `checkNeedsUpdate(checkOptions: CheckOptions) : Promise<NeedsUpdateResponse>`
 
 Checks if there are any updates available.
 
@@ -44,7 +44,7 @@ Where:
 |  toSemverConverter | (optional) Function  |  This will run right after the store version is fetched in case you want to change it before it's compared as a semver |
 |  customVersionComparator | (optional) Function  | By default this library uses `semver` behind the scenes to compare the store version with the `curVersion` value, but you can pass your own version comparator if you want to |
 
-and `CheckResult`:
+and `NeedsUpdateResponse`:
 
 | Result | Type  | Description  |
 |---|---|---|
@@ -54,12 +54,12 @@ and `CheckResult`:
 
 
 
-##### `startUpdate(checkOptions: UpdateOptions) : Promise`
+##### `startUpdate(checkOptions: StartUpdateOptions) : Promise`
 
 Shows pop-up asking user if they want to update, giving them the option to download said update.
 
 Where: 
-`UpdateOptions `
+`StartUpdateOptions `
 
 | Option | Type  | Description  |
 |---|---|---|
@@ -74,11 +74,11 @@ Where:
 
 Installs a downloaded update.
 
-##### `addStatusUpdateListener(callback: (status: UpdateStatus) : void) : void` (Android only)
+##### `addStatusUpdateListener(callback: (status: StatusUpdateEvent) : void) : void` (Android only)
 
 Adds a listener for tracking the current status of the update download.
 
-Where: `UpdateStatus`
+Where: `StatusUpdateEvent`
 
 | Option | Type  | Description  |
 |---|---|---|
@@ -88,54 +88,25 @@ Where: `UpdateStatus`
 
 and: `DownloadStatusEnum`
 
-`SpInAppUpdates.UPDATE_STATUS.AVAILABLE` |
-`SpInAppUpdates.UPDATE_STATUS.DEVELOPER_TRIGGERED` |
-`SpInAppUpdates.UPDATE_STATUS.UNAVAILABLE` |
-`SpInAppUpdates.UPDATE_STATUS.UNKNOWN` |
-`SpInAppUpdates.UPDATE_STATUS.UPDATE_CANCELED` |
-`SpInAppUpdates.UPDATE_STATUS.UPDATE_DOWNLOADED` |
-`SpInAppUpdates.UPDATE_STATUS.UPDATE_DOWNLOADING` |
-`SpInAppUpdates.UPDATE_STATUS.UPDATE_FAILED` |
-`SpInAppUpdates.UPDATE_STATUS.UPDATE_INSTALLED` |
-`SpInAppUpdates.UPDATE_STATUS.UPDATE_INSTALLING` |
-`SpInAppUpdates.UPDATE_STATUS.UPDATE_PENDING`
+`UPDATE_STATUS.AVAILABLE` |
+`UPDATE_STATUS.DEVELOPER_TRIGGERED` |
+`UPDATE_STATUS.UNAVAILABLE` |
+`UPDATE_STATUS.UNKNOWN` |
+`UPDATE_STATUS.UPDATE_CANCELED` |
+`UPDATE_STATUS.UPDATE_DOWNLOADED` |
+`UPDATE_STATUS.UPDATE_DOWNLOADING` |
+`UPDATE_STATUS.UPDATE_FAILED` |
+`UPDATE_STATUS.UPDATE_INSTALLED` |
+`UPDATE_STATUS.UPDATE_INSTALLING` |
+`UPDATE_STATUS.UPDATE_PENDING`
 
-##### `removeStatusUpdateListener(callback: (status: UpdateStatus) : void): void` (Android only)
+##### `removeStatusUpdateListener(callback: (status: StatusUpdateEvent) : void): void` (Android only)
 
 Removes an existing download status listener.
 
 ##Example:
+[Example project](https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/v1/Example/App.tsx#L24:L130)
 
-```javascript
-import SpInAppUpdates from 'sp-react-native-in-app-updates';
-
-const inAppUpdates = new SpInAppUpdates();
-const HIGH_PRIORITY_UPDATE = 5; // Arbitrary, depends on how you handle priority in the Play Console
-
-inAppUpdates.checkNeedsUpdate({
-  curVersion: '4.8.8',
-  toSemverConverter: (ver => {
-    // i.e if 400401 is the Android version, and we want to convert it to 4.4.1
-    const androidVersionNo = parseInt(ver, 10);
-    const majorVer = Math.trunc(androidVersionNo / 10000);
-    const minorVerStarter = androidVersionNo - majorVer * 10000;
-    const minorVer = Math.trunc(minorVerStarter / 100);
-    const patchVersion = Math.trunc(minorVerStarter - minorVer * 100);
-    return `${majorVer}.${minorVer}.${patchVersion}`;
-  })
-}).then(result => {
-  if (result.shouldUpdate) {
-      const updateType = result.other.updatePriority >= HIGH_PRIORITY_UPDATE
-          ? SpInAppUpdates.UPDATE_TYPE.IMMEDIATE
-          : SpInAppUpdates.UPDATE_TYPE.FLEXIBLE;
-
-	  inAppUpdates.startUpdate({
-	    updateType, // android only, on iOS the user will be promped to go to your app store page
-	  })
-  }
-})
-
-```
 
 ## Contributing:
 
