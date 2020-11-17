@@ -105,6 +105,8 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
             map.putBoolean("isImmediateUpdateAllowed", appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE));
             map.putBoolean("isFlexibleUpdateAllowed", appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE));
             map.putInt("updatePriority", appUpdateInfo.updatePriority());
+            map.putInt("status", appUpdateInfo.installStatus());
+            
             Integer clientVersionStaleness = appUpdateInfo.clientVersionStalenessDays();
             if (clientVersionStaleness != null) {
                 map.putInt("dayStaleness", clientVersionStaleness.intValue());
