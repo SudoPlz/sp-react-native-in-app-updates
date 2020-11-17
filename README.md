@@ -131,8 +131,12 @@ inAppUpdates.checkNeedsUpdate({
 
 	  inAppUpdates.startUpdate({
 	    updateType, // android only, on iOS the user will be promped to go to your app store page
-	  })
+	  }).catch((result) => {
+      console.log("catch startUpdate", result);
+    })
   }
+}).catch((result) => {
+    console.log("catch checkNeedsUpdate", result);
 })
 
 ```

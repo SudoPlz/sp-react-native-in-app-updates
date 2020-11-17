@@ -105,6 +105,8 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
             map.putBoolean("isImmediateUpdateAllowed", appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE));
             map.putBoolean("isFlexibleUpdateAllowed", appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE));
             map.putInt("updatePriority", appUpdateInfo.updatePriority());
+            map.putInt("status", appUpdateInfo.installStatus());
+
             Integer clientVersionStaleness = appUpdateInfo.clientVersionStalenessDays();
             if (clientVersionStaleness != null) {
                 map.putInt("dayStaleness", clientVersionStaleness.intValue());
@@ -120,6 +122,8 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
                 map.putDouble("totalBytes", (double)totalBytes);
             }
             resolutionPromise.resolve(map);
+        }).addOnFailureListener(failure -> {
+            resolutionPromise.reject("reject", "checkNeedsUpdate failure: " + failure.toString());
         });
     }
 
@@ -151,6 +155,8 @@ public class SpInAppUpdatesModule extends ReactContextBaseJavaModule implements 
                     resolutionPromise.reject("SendIntentException","Error while starting the update flow: "+e.toString());
                 }
             }
+        }).addOnFailureListener(failure -> {
+            resolutionPromise.reject("reject", "startUpdate failure: " + failure.toString());
         });
     }
 
