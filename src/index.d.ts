@@ -10,6 +10,8 @@ import type {
 export * from './types';
 export const Constants: ConstantsType;
 declare class SpInAppUpdates {
+  constructor(isDebug: boolean);
+
   public checkNeedsUpdate(
     checkOptions: CheckOptions
   ): Promise<NeedsUpdateResponse>;

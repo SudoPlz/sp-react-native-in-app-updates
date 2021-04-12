@@ -35,7 +35,9 @@ export default class App extends React.Component<{}, AppState> {
 
   constructor(props: any) {
     super(props);
-    this.inAppUpdates = new SpInAppUpdates();
+    this.inAppUpdates = new SpInAppUpdates(
+      true // debug verbosely
+    );
   }
 
   checkForUpdates = () => {
@@ -51,7 +53,6 @@ export default class App extends React.Component<{}, AppState> {
         //   const patchVersion = Math.trunc(minorVerStarter - minorVer * 100);
         //   return `${majorVer}.${minorVer}.${patchVersion}`;
         // },
-        debug: true,
       })
       .then((result: NeedsUpdateResponse) => {
         this.setState({

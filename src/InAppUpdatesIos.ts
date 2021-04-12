@@ -16,7 +16,7 @@ export default class InAppUpdatesIos extends InAppUpdatesBase {
   public checkNeedsUpdate(
     checkOptions: CheckOptions
   ): Promise<IosNeedsUpdateResponse> {
-    const { curVersion, toSemverConverter, customVersionComparator, debug } =
+    const { curVersion, toSemverConverter, customVersionComparator } =
       checkOptions || {};
     if (!curVersion) {
       this.throwError(
@@ -24,29 +24,21 @@ export default class InAppUpdatesIos extends InAppUpdatesBase {
         'checkNeedsUpdate'
       );
     }
-    if (debug) {
-      console.log('in-app-updates: Checking for store versions (iOS)');
-    }
-    return Siren.performCheck().then(
-      (checkResponse: IosPerformCheckResponse) => {
-        if (debug) {
-          console.log(
-            `in-app-updates: Received response from app store: ${JSON.stringify(
-              checkResponse
-            )}`
-          );
-        }
+    this.debugLog('Checking store version (iOS)');
+    return Siren.performCheck()
+      .then((checkResponse: IosPerformCheckResponse) => {
+        this.debugLog(
+          `Received response from app store: ${JSON.stringify(checkResponse)}`
+        );
         const { version } = checkResponse || {};
 
         if (version != null) {
           let newAppV = `${version}`;
           if (toSemverConverter) {
             newAppV = toSemverConverter(version);
-            if (debug) {
-              console.log(
-                `in-app-updates: Used custom semver, and converted result from store (${version}) to ${newAppV}`
-              );
-            }
+            this.debugLog(
+              `Used custom semver, and converted result from store (${version}) to ${newAppV}`
+            );
             if (!newAppV) {
               this.throwError(
                 `Couldnt convert ${version} using your custom semver converter`,
@@ -59,11 +51,9 @@ export default class InAppUpdatesIos extends InAppUpdatesBase {
             : compareVersions(newAppV, curVersion);
 
           if (vCompRes > 0) {
-            if (debug) {
-              console.log(
-                `in-app-updates: Compared cur version (${curVersion}) with store version (${newAppV}). The store version is higher!`
-              );
-            }
+            this.debugLog(
+              `Compared cur version (${curVersion}) with store version (${newAppV}). The store version is higher!`
+            );
             // app store version is higher than the current version
             return {
               shouldUpdate: true,
@@ -71,11 +61,9 @@ export default class InAppUpdatesIos extends InAppUpdatesBase {
               other: { ...checkResponse },
             };
           }
-          if (debug) {
-            console.log(
-              `in-app-updates: Compared cur version (${curVersion}) with store version (${newAppV}). The current version is higher!`
-            );
-          }
+          this.debugLog(
+            `Compared cur version (${curVersion}) with store version (${newAppV}). The current version is higher!`
+          );
           return {
             shouldUpdate: false,
             storeVersion: newAppV,
@@ -85,16 +73,17 @@ export default class InAppUpdatesIos extends InAppUpdatesBase {
             other: { ...checkResponse },
           };
         }
-        if (debug) {
-          console.log('in-app-updates: Failed to fetch a store version');
-        }
+        this.debugLog('Failed to fetch a store version');
         return {
           shouldUpdate: false,
           reason: 'Couldn\t fetch the latest version',
           other: { ...checkResponse },
         };
-      }
-    );
+      })
+      .catch((err: any) => {
+        this.debugLog(err);
+        this.throwError(err, 'checkNeedsUpdate');
+      });
   }
 
   startUpdate(updateOptions: IosStartUpdateOptions): Promise<void> {

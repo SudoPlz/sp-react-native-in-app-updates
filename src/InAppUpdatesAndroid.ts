@@ -96,6 +96,7 @@ export default class InAppUpdatesAndroid extends InAppUpdatesBase {
         'checkNeedsUpdate'
       );
     }
+    this.debugLog('Checking store version (Android)');
     return SpInAppUpdates.checkNeedsUpdate()
       .then((inAppUpdateInfo: AndroidInAppUpdateExtras) => {
         const { updateAvailability, versionCode } = inAppUpdateInfo || {};
@@ -103,6 +104,9 @@ export default class InAppUpdatesAndroid extends InAppUpdatesBase {
           let newAppV = `${versionCode}`;
           if (toSemverConverter) {
             newAppV = toSemverConverter(versionCode);
+            this.debugLog(
+              `Used custom semver, and converted result from store (${versionCode}) to ${newAppV}`
+            );
             if (!newAppV) {
               this.throwError(
                 `Couldnt convert ${versionCode} using your custom semver converter`,
@@ -115,6 +119,9 @@ export default class InAppUpdatesAndroid extends InAppUpdatesBase {
             : compareVersions(newAppV, curVersion);
 
           if (vCompRes > 0) {
+            this.debugLog(
+              `Compared cur version (${curVersion}) with store version (${newAppV}). The store version is higher!`
+            );
             // play store version is higher than the current version
             return {
               shouldUpdate: true,
@@ -122,6 +129,9 @@ export default class InAppUpdatesAndroid extends InAppUpdatesBase {
               other: { ...inAppUpdateInfo },
             };
           }
+          this.debugLog(
+            `Compared cur version (${curVersion}) with store version (${newAppV}). The current version is higher!`
+          );
           return {
             shouldUpdate: false,
             storeVersion: newAppV,
@@ -130,7 +140,16 @@ export default class InAppUpdatesAndroid extends InAppUpdatesBase {
             })`,
             other: { ...inAppUpdateInfo },
           };
+        } else if (
+          updateAvailability === AndroidAvailabilityStatus.DEVELOPER_TRIGGERED
+        ) {
+          this.debugLog('Update has already been triggered by the developer');
+        } else {
+          this.debugLog(
+            `Failed to fetch a store version, status: ${updateAvailability}`
+          );
         }
+
         return {
           shouldUpdate: false,
           reason: `status: ${updateAvailability} means there's no new version available`,
@@ -138,6 +157,7 @@ export default class InAppUpdatesAndroid extends InAppUpdatesBase {
         };
       })
       .catch((err: any) => {
+        this.debugLog(err);
         this.throwError(err, 'checkNeedsUpdate');
       });
   };

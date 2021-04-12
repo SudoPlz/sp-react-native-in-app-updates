@@ -42,11 +42,6 @@ export type CheckOptions = {
     v1: SemverVersion,
     v2: SemverVersion
   ) => -1 | 0 | 1;
-
-  /**
-   * Set to true temporarily for more verbose logs
-   */
-  debug?: boolean;
 };
 
 export type SemverVersion = string;
