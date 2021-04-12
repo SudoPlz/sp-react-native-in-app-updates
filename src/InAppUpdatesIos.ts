@@ -36,9 +36,9 @@ export default class InAppUpdatesIos extends InAppUpdatesBase {
             )}`
           );
         }
-        const { updateIsAvailable, version } = checkResponse || {};
+        const { version } = checkResponse || {};
 
-        if (updateIsAvailable && version != null) {
+        if (version != null) {
           let newAppV = `${version}`;
           if (toSemverConverter) {
             newAppV = toSemverConverter(version);
@@ -86,11 +86,7 @@ export default class InAppUpdatesIos extends InAppUpdatesBase {
           };
         }
         if (debug) {
-          console.log(
-            `in-app-updates: Updates available: ${updateIsAvailable}.${
-              version ? ` Store version: ${version}` : ''
-            }`
-          );
+          console.log('in-app-updates: Failed to fetch a store version');
         }
         return {
           shouldUpdate: false,
