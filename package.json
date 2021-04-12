@@ -1,6 +1,6 @@
 {
   "name": "sp-react-native-in-app-updates",
-  "version": "0.1.0",
+  "version": "1.0.1-alpha",
   "description": "Handles Android native updates in app by using play-core",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -46,6 +46,14 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
+  "dependencies": {
+    "underscore": "1.10.2",
+    "semver": "7.2.1",
+    "react-native-siren": "0.0.3"
+  },
+  "resolutions": {
+    "react-native-device-info": "^6.2.1"
+  },
   "devDependencies": {
     "@commitlint/config-conventional": "^11.0.0",
     "@react-native-community/eslint-config": "^2.0.0",
@@ -53,6 +61,8 @@
     "@types/jest": "^26.0.0",
     "@types/react": "^16.9.19",
     "@types/react-native": "0.62.13",
+    "@types/semver": "^7.3.4",
+    "@types/underscore": "^1.11.1",
     "commitlint": "^11.0.0",
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^7.0.0",
