@@ -83,6 +83,11 @@ export enum AndroidUpdateType {
 export type AndroidInAppUpdateExtras = {
   updateAvailability: AndroidAvailabilityStatus;
   versionCode: SemverVersionCode;
+  isFlexibleUpdateAllowed: boolean;
+  isImmediateUpdateAllowed: boolean;
+  packageName: string;
+  totalBytes: number;
+  updatePriority: number;
 };
 
 export interface AndroidNeedsUpdateResponse extends NeedsUpdateResponseBase {
