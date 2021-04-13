@@ -1,9 +1,10 @@
 /* eslint-disable no-alert */
 import React from 'react';
 import SpInAppUpdates, {
-  AndroidUpdateType,
-  StatusUpdateEvent,
   NeedsUpdateResponse,
+  IAUUpdateKind,
+  StartUpdateOptions,
+  StatusUpdateEvent,
 } from 'sp-react-native-in-app-updates';
 
 import {
@@ -69,22 +70,24 @@ export default class App extends React.Component<{}, AppState> {
 
   startUpdating = () => {
     if (this.state.needsUpdate) {
-      let updateType = AndroidUpdateType.FLEXIBLE;
+      let updateOptions: StartUpdateOptions = {};
       if (Platform.OS === 'android' && this.state.otherData) {
         const { otherData } = this.state || {
           otherData: null,
         };
         // @ts-expect-error TODO: Check if updatePriority exists
         if (otherData?.updatePriority >= HIGH_PRIORITY_UPDATE) {
-          updateType = AndroidUpdateType.IMMEDIATE;
+          updateOptions = {
+            updateType: IAUUpdateKind.IMMEDIATE,
+          };
         } else {
-          updateType = AndroidUpdateType.FLEXIBLE;
+          updateOptions = {
+            updateType: IAUUpdateKind.FLEXIBLE,
+          };
         }
       }
       this.inAppUpdates.addStatusUpdateListener(this.onStatusUpdate);
-      this.inAppUpdates.startUpdate({
-        updateType, // android only, on iOS the user will be promped to go to your app store page
-      });
+      this.inAppUpdates.startUpdate(updateOptions);
     } else {
       // @ts-ignore
       alert('doesnt look like we need an update');

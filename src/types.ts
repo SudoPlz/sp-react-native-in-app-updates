@@ -162,4 +162,9 @@ export type IosStartUpdateOptions = {
   buttonUpgradeText?: string;
   buttonCancelText?: string;
   forceUpgrade?: boolean;
+  updateType?: never;
 };
+
+export type StartUpdateOptions =
+  | IosStartUpdateOptions
+  | AndroidStartUpdateOptions;
