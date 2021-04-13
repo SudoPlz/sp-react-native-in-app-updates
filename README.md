@@ -163,5 +163,9 @@ This library is offered as is, if you'd like to change something please open a P
 
 <br>
 
+## Changelog
+
+Read the [CHANGELOG.md](https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/master/CHANGELOG.md) file
+
 ## License
 MIT
