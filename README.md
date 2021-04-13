@@ -141,19 +141,51 @@ Removes an existing download status listener.
 <br>
 <br>
 
+
+
+## Typical debugging workflow we had success with:
+
+Debugging in-app-updates is tricky, so arm yourself with patience, enable debug logs by passing true to our library constructor.
+
+##### Step 1: Enable **internal app sharing** (google it) on your android device
+
+##### Step 2: Create a release apk (or aab) with the lower version of your app (i.e version 100)
+
+(you don't like the debug variant right? Neither do we, but we couldn't find an easier way to check that everything's working fine - debug builds don't work with in-app-updates unfortunately)
+
+##### Step 3: Create a release apk (or aab) with the higher version of your app (i.e version 101)
+
+This is what you'd be updating to
+
+##### Step 4: Upload both apk's to internal app sharing
+
+##### Step 5: Install the version 100 on your device.
+
+##### Step 6: Open the internal app sharing link of version 101 on your device but DON'T install it
+
+Make sure that the button within that link says UPDATE (and NOT install)
+
+That means google play knows there's an available update
+
+##### Step 7: Open the installed (100) version of the app, and make sure that your code works (that you see an update popup)
+
+Haven't really found any easier ways to test that everything works, but hey.. it get's the job done
+
+<br>
+
 ## Troubleshooting
 Keep in mind that this library is JUST a **WRAPPER** of the in-app-update api, so if you have trouble making in-app-updates work it's most probably because you're doing something wrong with google play.
 <br>
 
-### Common issues:
+- In-app updates works only with devices running Android 5.0 (**API level 21**) or higher.
+- Testing this won’t work on a debug build. You would need a release build signed with the same key you use to sign your app before uploading to the Play Store (dummy signing can be used). It would be a good time to use the internal testing track.
+- In-app updates are available only to user accounts that own the app. So, make sure the account you’re using has downloaded your app from Google Play at least once before using the account to test in-app updates.
+- Because Google Play can only update an app to a higher version code, make sure the app you are testing as a lower version code than the update version code.
+- Make sure the account is eligible and the Google Play cache is up to date. To do so, while logged into the Google Play Store account on the test device, proceed as follows:
+Make sure you completely close the Google Play Store App.
+Open the Google Play Store app and go to the My Apps & Games tab.
 
-- You're getting a `ERROR_API_NOT_AVAILABLE ` error: Probably because you're attempting to test in-app-updates on debug. You'll need to use internal app sharing in order to debug (Read more: https://stackoverflow.com/a/59456561/1658268).
-
-- The **minimum API SDK** for android to support in-app-updates is **21**
-
-- Your play store version or play services is out of date
-
-Debugging is tricky, so arm yourself with patience, enable debug logs by passing true to the constructor of
+**Important: If the app you are testing doesn’t appear with an available update, don't bother checking for updates programmatically, because you'll probably never see any available updates via code either.**
 
 <br>
 
