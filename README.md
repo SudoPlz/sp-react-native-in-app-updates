@@ -5,6 +5,7 @@
 ## Getting started
 
 <br>
+
 ### What is this?
 
 This is a **react-native native module** that works on both **iOS** and **Android**, and checks the stores (play/app) for a new version of your app and can prompt your user for an update.
@@ -16,6 +17,7 @@ Because to this day I'm not aware of any react-native libraries that use play co
 
 
 <br>
+
 ## Installation
 
 `$ npm install sp-react-native-in-app-updates --save`
@@ -33,6 +35,7 @@ On **iOS** you may need to also add the following lines in your Info.plist to be
 </array>
 ```
 <br>
+
 ## Usage
 
 
@@ -63,8 +66,10 @@ inAppUpdates.checkNeedsUpdate({ curVersion: '0.0.8' }).then((result) => {
 ```
 <br>
 <br>
+
 ### Methods:
 <br>
+
 #### `checkNeedsUpdate(checkOptions: CheckOptions) : Promise<NeedsUpdateResponse>`
 
 Checks if there are any updates available.
@@ -87,6 +92,7 @@ and `NeedsUpdateResponse`:
 |  other | Object  | Other info returned from the store (differs on Android/iOS) |
 
 <br>
+
 #### `startUpdate(checkOptions: StartUpdateOptions) : Promise`
 
 Shows pop-up asking user if they want to update, giving them the option to download said update.
@@ -104,6 +110,7 @@ Where:
 |  forceUpgrade (iOS only) | (optional) Boolean  |  If set to true the user won't be able to cancel the upgrade (default: false)|
 
 <br>
+
 #### `installUpdate() : void` (Android only)
 
 Installs a downloaded update.
@@ -128,11 +135,13 @@ Where: `StatusUpdateEvent`
 Removes an existing download status listener.
 <br>
 <br>
-##Example:
+
+## Example:
 [Example project](https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/v1/Example/App.tsx#L38)
 <br>
 <br>
-##Troubleshooting
+
+## Troubleshooting
 Keep in mind that this library is JUST a **WRAPPER** of the in-app-update api, so if you have trouble making in-app-updates work it's most probably because you're doing something wrong with google play.
 <br>
 
@@ -144,7 +153,7 @@ Keep in mind that this library is JUST a **WRAPPER** of the in-app-update api, s
 
 - Your play store version or play services is out of date
 
-Debugging is tricky, so arm yourself with patience, enable debug logs by passing true to the constructor of 
+Debugging is tricky, so arm yourself with patience, enable debug logs by passing true to the constructor of
 
 <br>
 
@@ -153,5 +162,6 @@ Debugging is tricky, so arm yourself with patience, enable debug logs by passing
 This library is offered as is, if you'd like to change something please open a PR
 
 <br>
+
 ## License
 MIT
