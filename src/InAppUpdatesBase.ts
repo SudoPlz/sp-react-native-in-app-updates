@@ -9,11 +9,11 @@ export default class InAppUpdatesBase {
   protected prototype: any;
   protected isDebug: boolean;
 
-  constructor(isDebug: boolean = false) {
+  constructor(isDebug?: boolean) {
     this.name = 'sp-react-native-in-app-updates';
     this.statusUpdateListeners = new EventListenerCollection();
     this.resultListeners = new EventListenerCollection();
-    this.isDebug = isDebug;
+    this.isDebug = isDebug || false;
   }
 
   public throwError = (err: string | Error, scope: string) => {
