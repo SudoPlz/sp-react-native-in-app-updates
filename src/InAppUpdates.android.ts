@@ -21,7 +21,7 @@ const SpInAppUpdatesOrEmpty: {
   IN_APP_UPDATE_RESULT_KEY: any;
 } = SpInAppUpdates || {};
 
-export default class InAppUpdatesAndroid extends InAppUpdatesBase {
+export default class InAppUpdates extends InAppUpdatesBase {
   constructor() {
     super();
     this.eventEmitter = new NativeEventEmitter(SpInAppUpdates);

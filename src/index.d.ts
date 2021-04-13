@@ -5,6 +5,7 @@ import type {
   AndroidIntentResultListener,
   AndroidStatusEventListener,
 } from './types';
+
 export * from './types';
 
 export {
@@ -13,6 +14,7 @@ export {
   AndroidInstallStatus as IAUInstallStatus,
   AndroidOther as IAUOther,
 } from './types'; // Android only
+
 declare class SpInAppUpdates {
   constructor(isDebug: boolean);
 
@@ -33,6 +35,6 @@ declare class SpInAppUpdates {
 
   public removeIntentSelectionListener(
     callback: AndroidIntentResultListener
-  ): voi;
+  ): void;
 }
 export default SpInAppUpdates;

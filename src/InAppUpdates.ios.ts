@@ -12,7 +12,7 @@ import type {
 
 const noop = () => {};
 
-export default class InAppUpdatesIos extends InAppUpdatesBase {
+export default class InAppUpdates extends InAppUpdatesBase {
   public checkNeedsUpdate(
     checkOptions: CheckOptions
   ): Promise<IosNeedsUpdateResponse> {
