@@ -91,9 +91,11 @@ export default class InAppUpdates extends InAppUpdatesBase {
     const { curVersion, toSemverConverter, customVersionComparator } =
       checkOptions || {};
 
-    let appVersion: string = getVersion();
+    let appVersion: string;
     if (curVersion) {
       appVersion = curVersion;
+    } else {
+      appVersion = getVersion();
     }
     this.debugLog('Checking store version (Android)');
     return SpInAppUpdates.checkNeedsUpdate()
