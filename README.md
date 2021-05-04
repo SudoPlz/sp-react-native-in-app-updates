@@ -50,7 +50,7 @@ import SpInAppUpdates, {
 const inAppUpdates = new SpInAppUpdates(
   false // isDebug
 );
-
+// curVersion is optional if you don't provide it will automatically take from the app using rn-device-info
 inAppUpdates.checkNeedsUpdate({ curVersion: '0.0.8' }).then((result) => {
   if (result.shouldUpdate) {
     let updateOptions: StartUpdateOptions = {};
