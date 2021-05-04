@@ -26,7 +26,7 @@ export type CheckOptions = {
   /**
    * The semver of your current app version
    */
-  curVersion: string;
+  curVersion?: string;
 
   /**
    * This will run right after the store version is fetched in case you want to change it before it's compared as a semver
