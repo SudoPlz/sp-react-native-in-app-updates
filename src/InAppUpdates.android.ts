@@ -1,4 +1,5 @@
 import { NativeModules, NativeEventEmitter } from 'react-native';
+import { getVersion } from 'react-native-device-info';
 
 import { compareVersions } from './utils';
 import {
@@ -90,11 +91,11 @@ export default class InAppUpdates extends InAppUpdatesBase {
     const { curVersion, toSemverConverter, customVersionComparator } =
       checkOptions || {};
 
-    if (!curVersion) {
-      this.throwError(
-        'You have to include at least the curVersion to the options passed in checkNeedsUpdate',
-        'checkNeedsUpdate'
-      );
+    let appVersion: string;
+    if (curVersion) {
+      appVersion = curVersion;
+    } else {
+      appVersion = getVersion();
     }
     this.debugLog('Checking store version (Android)');
     return SpInAppUpdates.checkNeedsUpdate()
@@ -115,8 +116,8 @@ export default class InAppUpdates extends InAppUpdatesBase {
             }
           }
           const vCompRes = customVersionComparator
-            ? customVersionComparator(newAppV, curVersion)
-            : compareVersions(newAppV, curVersion);
+            ? customVersionComparator(newAppV, appVersion)
+            : compareVersions(newAppV, appVersion);
 
           if (vCompRes > 0) {
             this.debugLog(
