@@ -86,7 +86,7 @@ export default class InAppUpdates extends InAppUpdatesBase {
    * Checks if there are any updates available.
    */
   public checkNeedsUpdate = (
-    checkOptions: CheckOptions
+    checkOptions?: CheckOptions
   ): Promise<AndroidNeedsUpdateResponse> => {
     const { curVersion, toSemverConverter, customVersionComparator } =
       checkOptions || {};

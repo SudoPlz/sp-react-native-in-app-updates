@@ -19,7 +19,7 @@ declare class SpInAppUpdates {
   constructor(isDebug: boolean);
 
   public checkNeedsUpdate(
-    checkOptions: CheckOptions
+    checkOptions?: CheckOptions
   ): Promise<NeedsUpdateResponse>;
 
   public startUpdate(updateOptions: StartUpdateOptions): Promise<void>;

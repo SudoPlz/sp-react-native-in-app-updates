@@ -15,7 +15,7 @@ const noop = () => {};
 
 export default class InAppUpdates extends InAppUpdatesBase {
   public checkNeedsUpdate(
-    checkOptions: CheckOptions
+    checkOptions?: CheckOptions
   ): Promise<IosNeedsUpdateResponse> {
     const { curVersion, toSemverConverter, customVersionComparator } =
       checkOptions || {};
