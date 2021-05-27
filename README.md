@@ -147,6 +147,8 @@ Removes an existing download status listener.
 
 Debugging in-app-updates is tricky, so arm yourself with patience, enable debug logs by passing true to our library constructor.
 
+First of all use a **REAL device**.
+
 ##### Step 1: Enable **internal app sharing** (google it) on your android device
 
 ##### Step 2: Create a release apk (or aab) with the lower version of your app (i.e version 100)
