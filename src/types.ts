@@ -19,29 +19,35 @@ export type StatusUpdateEvent = {
   status: AndroidInstallStatus;
 };
 
+export type SemverConverter = (
+  version: SemverVersionCode | SemverVersion
+) => SemverVersion;
+
+export type CustomVersionComparator = (
+  v1: SemverVersion,
+  v2: SemverVersion
+) => -1 | 0 | 1;
 /**
  * Whether the iOS APNs message was configured as a background update notification.
  */
 export type CheckOptions = {
   /**
-   * The semver of your current app version
+   * The code of your current app version
+   * - for Android that should be the versionCode https://developer.android.com/studio/publish/versioning
+   * - for iOS that should be the build number (CFBundleVersion) https://developer.apple.com/documentation/bundleresources/information_property_list/cfbundleversion?language=objc
+   * If this AND curVersion are specified, this will be prioritised
    */
-  curVersion?: string;
+  curVersionCode?: string;
 
   /**
    * This will run right after the store version is fetched in case you want to change it before it's compared as a semver
    */
-  toSemverConverter?: (
-    version: SemverVersionCode | SemverVersion
-  ) => SemverVersion;
+  toSemverConverter?: SemverConverter;
 
   /**
    * By default this library uses semver behind the scenes to compare the store version with the curVersion value, but you can pass your own version comparator if you want to
    */
-  customVersionComparator?: (
-    v1: SemverVersion,
-    v2: SemverVersion
-  ) => -1 | 0 | 1;
+  customVersionComparator?: CustomVersionComparator;
 };
 
 export type SemverVersion = string;

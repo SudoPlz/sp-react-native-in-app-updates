@@ -44,7 +44,7 @@ export default class App extends React.Component<{}, AppState> {
   checkForUpdates = () => {
     this.inAppUpdates
       .checkNeedsUpdate({
-        curVersion: '0.0.8',
+        curVersionCode: '0.0.8',
         // toSemverConverter: (ver: SemverVersion) => {
         //   // i.e if 400401 is the Android version, and we want to convert it to 4.4.1
         //   const androidVersionNo = parseInt(ver, 10);

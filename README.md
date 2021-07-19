@@ -50,8 +50,8 @@ import SpInAppUpdates, {
 const inAppUpdates = new SpInAppUpdates(
   false // isDebug
 );
-// curVersion is optional if you don't provide it will automatically take from the app using rn-device-info
-inAppUpdates.checkNeedsUpdate({ curVersion: '0.0.8' }).then((result) => {
+// curVersionCode is optional if you don't provide it, we'll automatically grab it using rn-device-info
+inAppUpdates.checkNeedsUpdate({ curVersionCode: '123' }).then((result) => {
   if (result.shouldUpdate) {
     let updateOptions: StartUpdateOptions = {};
     if (Platform.OS === 'android') {
@@ -79,9 +79,9 @@ Where:
 
 | Options | Type  | Description  |
 |---|---|---|
-| curVersion  | (required) String | The semver of your current app version  |
+| curVersionCode  | (optional) String | A valid semver representation versionCode of your current app version i.e `'123'` or `'1.12.1'` (versionCode on android, CFBundleVersion on iOS) |
 |  toSemverConverter | (optional) Function  |  This will run right after the store version is fetched in case you want to change it before it's compared as a semver |
-|  customVersionComparator | (optional) Function  | By default this library uses `semver` behind the scenes to compare the store version with the `curVersion` value, but you can pass your own version comparator if you want to |
+|  customVersionComparator | (optional) Function  | By default this library uses `semver` behind the scenes to compare the store version with the `curVersionCode` value, but you can pass your own version comparator if you want to |
 
 and `NeedsUpdateResponse`:
 

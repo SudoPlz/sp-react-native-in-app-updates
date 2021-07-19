@@ -1,7 +1,6 @@
 import { NativeModules, NativeEventEmitter } from 'react-native';
-import { getVersion } from 'react-native-device-info';
+import { getBuildNumber } from 'react-native-device-info';
 
-import { compareVersions } from './utils';
 import {
   StatusUpdateEvent,
   CheckOptions,
