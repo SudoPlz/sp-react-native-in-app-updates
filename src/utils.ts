@@ -1,5 +1,14 @@
-import semver from 'semver';
+import semver, { valid, coerce } from 'semver';
 import type { SemverVersion } from './types';
+
+export const sanitizeSemver = (aSemver: SemverVersion): SemverVersion => {
+  const value = aSemver ? `${aSemver}` : aSemver;
+  return valid(coerce(value)) || value;
+};
+
+export const isValidSemver = (aSemver: SemverVersion) => {
+  return valid(coerce(`${aSemver}`)) !== null;
+};
 
 export const compareVersions = (
   versionToCheck: SemverVersion,
