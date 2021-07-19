@@ -1,4 +1,4 @@
-export enum InstallationStatus {
+export enum AndroidInstallStatus {
   UNKNOWN = 0,
   PENDING = 1,
   DOWNLOADING = 2,
@@ -10,13 +10,13 @@ export enum InstallationStatus {
 }
 
 export type InstallationResult =
-  | InstallationStatus.INSTALLED
-  | InstallationStatus.CANCELED;
+  | AndroidInstallStatus.INSTALLED
+  | AndroidInstallStatus.CANCELED;
 
 export type StatusUpdateEvent = {
   bytesDownloaded: any;
   totalBytesToDownload: any;
-  status: InstallationStatus;
+  status: AndroidInstallStatus;
 };
 
 /**
@@ -56,16 +56,6 @@ export interface NeedsUpdateResponseBase {
 export enum AndroidOther {
   IN_APP_UPDATE_RESULT_KEY = 'in_app_update_result',
   IN_APP_UPDATE_STATUS_KEY = 'in_app_update_status',
-}
-
-export enum AndroidInstallStatus {
-  PENDING = 1,
-  DOWNLOADING = 2,
-  INSTALLING = 3,
-  INSTALLED = 4,
-  FAILED = 5,
-  CANCELED = 6,
-  DOWNLOADED = 11,
 }
 
 export enum AndroidAvailabilityStatus {

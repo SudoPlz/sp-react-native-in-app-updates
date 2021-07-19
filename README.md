@@ -124,7 +124,7 @@ Where: `StatusUpdateEvent`
 
 | Option | Type  | Description  |
 |---|---|---|
-|  status | [InstallationStatus](https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/master/src/types.ts#L1) | The status of the installation (https://developer.android.com/reference/com/google/android/play/core/install/model/InstallStatus) |
+|  status | [AndroidInstallStatus](https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/master/src/types.ts#L1) | The status of the installation (https://developer.android.com/reference/com/google/android/play/core/install/model/InstallStatus) |
 |  bytesDownloaded | int | How many bytes were already downloaded |
 |  totalBytesToDownload | int | The total amount of bytes in the update |
 

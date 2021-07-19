@@ -22,7 +22,7 @@ export default class EventListenerCollection {
     if (_.contains(this.listenerCollection, callback)) {
       this.listenerCollection = _.reject(
         this.listenerCollection,
-        (item) => item === callback
+        (item: any) => item === callback
       );
     }
   }
