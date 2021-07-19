@@ -201,5 +201,7 @@ This library is offered as is, if you'd like to change something please open a P
 
 Read the [CHANGELOG.md](https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/master/CHANGELOG.md) file
 
+Also if you're migrating from major version to major version, note that there will be breaking changes.
+
 ## License
 MIT

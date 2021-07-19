@@ -1,6 +1,37 @@
+# 1.0.* -> 2.*.*
+
+Better version comparison, and more sane types
+
+
+## BREAKING CHANGES:
+## NO LONGER using version names (curVersion parameter)
+
+Instead we now striclty use version codes (curVersionCode parameter)
+
+Also when NO version is passed, we no longer get the current version name, instead we get the current version number.
+
+Change:
+`curVersion` to `curVersionCode` and make sure that's a versionCode on android and a CFBundleVersion on iOS
+### Changed how we import constants
+
+Change:
+- `IAUUpdateKind` to `AndroidUpdateType`
+
+- `IAUAvailabilityStatus` to `AndroidAvailabilityStatus`
+
+- `IAUInstallStatus` to `AndroidInstallStatus`
+
+- `IAUOther` to `AndroidOther`
+
+
+
+
+
+
+
 # 0.\*.\* -> 1.0.*
 
-BREAKING CHANGES:
+## BREAKING CHANGES:
 
 ### Changed how we import constants
 
