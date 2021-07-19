@@ -94,14 +94,14 @@ export default class App extends React.Component<{}, AppState> {
     }
   };
 
-  onStatusUpdate = (status: StatusUpdateEvent) => {
+  onStatusUpdate = (event: StatusUpdateEvent) => {
     // const {
     //   // status,
     //   bytesDownloaded,
     //   totalBytesToDownload,
     // } = status;
     // do something
-    console.log(`@@ ${JSON.stringify(status)}`);
+    console.log(`@@ ${JSON.stringify(event)}`);
   };
 
   render() {
