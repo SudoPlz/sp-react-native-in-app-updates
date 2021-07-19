@@ -2,7 +2,7 @@
 import React from 'react';
 import SpInAppUpdates, {
   NeedsUpdateResponse,
-  IAUUpdateKind,
+  AndroidUpdateType,
   StartUpdateOptions,
   StatusUpdateEvent,
 } from 'sp-react-native-in-app-updates';
@@ -78,11 +78,11 @@ export default class App extends React.Component<{}, AppState> {
         // @ts-expect-error TODO: Check if updatePriority exists
         if (otherData?.updatePriority >= HIGH_PRIORITY_UPDATE) {
           updateOptions = {
-            updateType: IAUUpdateKind.IMMEDIATE,
+            updateType: AndroidUpdateType.IMMEDIATE,
           };
         } else {
           updateOptions = {
-            updateType: IAUUpdateKind.FLEXIBLE,
+            updateType: AndroidUpdateType.FLEXIBLE,
           };
         }
       }

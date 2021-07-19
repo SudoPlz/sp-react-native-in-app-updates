@@ -8,13 +8,6 @@ import type {
 
 export * from './types';
 
-export {
-  AndroidUpdateType as IAUUpdateKind,
-  AndroidAvailabilityStatus as IAUAvailabilityStatus,
-  AndroidInstallStatus as IAUInstallStatus,
-  AndroidOther as IAUOther,
-} from './types'; // Android only
-
 declare class SpInAppUpdates {
   constructor(isDebug: boolean);
 
