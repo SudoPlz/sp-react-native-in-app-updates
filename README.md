@@ -60,7 +60,7 @@ inAppUpdates.checkNeedsUpdate({ curVersion: '0.0.8' }).then((result) => {
         updateType: IAUUpdateKind.FLEXIBLE,
       };
     }
-    inAppUpdates.startUpdate(updateOptions);[](https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/master/src/types.ts#L78)
+    inAppUpdates.startUpdate(updateOptions); // https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/master/src/types.ts#L78
   }
 });
 ```
