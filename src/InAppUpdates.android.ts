@@ -88,55 +88,54 @@ export default class InAppUpdates extends InAppUpdatesBase {
   public checkNeedsUpdate = (
     checkOptions?: CheckOptions
   ): Promise<AndroidNeedsUpdateResponse> => {
-    const { curVersion, toSemverConverter, customVersionComparator } =
+    const { curVersionCode, toSemverConverter, customVersionComparator } =
       checkOptions || {};
 
-    let appVersion: string;
-    if (curVersion) {
-      appVersion = curVersion;
-    } else {
-      appVersion = getVersion();
+    // @ts-expect-error
+    if (checkOptions?.curVersion) {
+      this.throwError(
+        // throw error if old prop is used
+        'Please use curVersionCode to specify a version code. (curVersion is deprecated)',
+        'checkNeedsUpdate'
+      );
     }
+    const versionCode: string = this.sanitizeVersionCode(
+      curVersionCode || `${getBuildNumber()}`
+    ); // current android versionCode
+
     this.debugLog('Checking store version (Android)');
     return SpInAppUpdates.checkNeedsUpdate()
       .then((inAppUpdateInfo: AndroidInAppUpdateExtras) => {
-        const { updateAvailability, versionCode } = inAppUpdateInfo || {};
-        if (updateAvailability === AndroidAvailabilityStatus.AVAILABLE) {
-          let newAppV = `${versionCode}`;
-          if (toSemverConverter) {
-            newAppV = toSemverConverter(versionCode);
-            this.debugLog(
-              `Used custom semver, and converted result from store (${versionCode}) to ${newAppV}`
-            );
-            if (!newAppV) {
-              this.throwError(
-                `Couldnt convert ${versionCode} using your custom semver converter`,
-                'checkNeedsUpdate'
-              );
-            }
-          }
-          const vCompRes = customVersionComparator
-            ? customVersionComparator(newAppV, appVersion)
-            : compareVersions(newAppV, appVersion);
+        const { updateAvailability, versionCode: newVersionCode } =
+          inAppUpdateInfo || {};
 
-          if (vCompRes > 0) {
+        if (updateAvailability === AndroidAvailabilityStatus.AVAILABLE) {
+          const newAppV = this.sanitizeVersionCode(
+            `${newVersionCode}`,
+            toSemverConverter
+          );
+
+          if (
+            this.shouldUpdate(versionCode, newAppV, customVersionComparator)
+          ) {
+            // if app store version is higher than the current version
             this.debugLog(
-              `Compared cur version (${curVersion}) with store version (${newAppV}). The store version is higher!`
+              `Compared cur version (${versionCode}) with store version (${newAppV}). The store version is higher!`
             );
-            // play store version is higher than the current version
             return {
               shouldUpdate: true,
               storeVersion: newAppV,
               other: { ...inAppUpdateInfo },
             };
           }
+
           this.debugLog(
-            `Compared cur version (${curVersion}) with store version (${newAppV}). The current version is higher!`
+            `Compared cur version (${versionCode}) with store version (${newAppV}). The current version is higher!`
           );
           return {
             shouldUpdate: false,
             storeVersion: newAppV,
-            reason: `current version (${curVersion}) is already later than the latest store version (${newAppV}${
+            reason: `current version (${versionCode}) is already later than the latest store version (${newAppV}${
               toSemverConverter ? ` - originated from ${versionCode}` : ''
             })`,
             other: { ...inAppUpdateInfo },

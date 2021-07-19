@@ -1,7 +1,7 @@
 // @ts-expect-error
 import Siren from 'react-native-siren';
+import { getBuildNumber } from 'react-native-device-info';
 
-import { compareVersions } from './utils';
 import InAppUpdatesBase from './InAppUpdatesBase';
 import type {
   CheckOptions,
@@ -9,7 +9,6 @@ import type {
   IosStartUpdateOptions,
   IosNeedsUpdateResponse,
 } from './types';
-import { getVersion } from 'react-native-device-info';
 
 const noop = () => {};
 
@@ -17,15 +16,21 @@ export default class InAppUpdates extends InAppUpdatesBase {
   public checkNeedsUpdate(
     checkOptions?: CheckOptions
   ): Promise<IosNeedsUpdateResponse> {
-    const { curVersion, toSemverConverter, customVersionComparator } =
+    // @ts-expect-error
+    if (checkOptions?.curVersion) {
+      this.throwError(
+        // throw error if old prop is used
+        'Please use curVersionCode to specify a version code. (curVersion is deprecated)',
+        'checkNeedsUpdate'
+      );
+    }
+    const { curVersionCode, toSemverConverter, customVersionComparator } =
       checkOptions || {};
 
-    let appVersion: string;
-    if (curVersion) {
-      appVersion = curVersion;
-    } else {
-      appVersion = getVersion();
-    }
+    const versionCode: string = this.sanitizeVersionCode(
+      curVersionCode || `${getBuildNumber()}`
+    ); // current ios app build number of the app that's running this code
+
     this.debugLog('Checking store version (iOS)');
     return Siren.performCheck()
       .then((checkResponse: IosPerformCheckResponse) => {
@@ -35,41 +40,32 @@ export default class InAppUpdates extends InAppUpdatesBase {
         const { version } = checkResponse || {};
 
         if (version != null) {
-          let newAppV = `${version}`;
-          if (toSemverConverter) {
-            newAppV = toSemverConverter(version);
-            this.debugLog(
-              `Used custom semver, and converted result from store (${version}) to ${newAppV}`
-            );
-            if (!newAppV) {
-              this.throwError(
-                `Couldnt convert ${version} using your custom semver converter`,
-                'checkNeedsUpdate'
-              );
-            }
-          }
-          const vCompRes = customVersionComparator
-            ? customVersionComparator(newAppV, appVersion)
-            : compareVersions(newAppV, appVersion);
+          const newAppV = this.sanitizeVersionCode(
+            `${version}`,
+            toSemverConverter
+          );
 
-          if (vCompRes > 0) {
+          if (
+            this.shouldUpdate(versionCode, newAppV, customVersionComparator)
+          ) {
+            // if app store version is higher than the current version
             this.debugLog(
-              `Compared cur version (${curVersion}) with store version (${newAppV}). The store version is higher!`
+              `Compared cur version (${versionCode}) with store version (${newAppV}). The store version is higher!`
             );
-            // app store version is higher than the current version
             return {
               shouldUpdate: true,
               storeVersion: newAppV,
               other: { ...checkResponse },
             };
           }
+
           this.debugLog(
-            `Compared cur version (${curVersion}) with store version (${newAppV}). The current version is higher!`
+            `Compared cur version (${versionCode}) with store version (${newAppV}). The current version is higher!`
           );
           return {
             shouldUpdate: false,
             storeVersion: newAppV,
-            reason: `current version (${curVersion}) is already later than the latest store version (${newAppV}${
+            reason: `current version (${versionCode}) is already later than the latest store version (${newAppV}${
               toSemverConverter ? ` - originated from ${version}` : ''
             })`,
             other: { ...checkResponse },
