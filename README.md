@@ -36,6 +36,10 @@ On **iOS** you may need to also add the following lines in your Info.plist to be
 ```
 <br>
 
+##### Note:
+
+It uses [`react-native-device-info`](https://github.com/react-native-device-info/react-native-device-info#installation) to get `curVersion`. Install it if you want to avoid `curVersion` option
+
 ## Usage
 
 
@@ -50,7 +54,7 @@ import SpInAppUpdates, {
 const inAppUpdates = new SpInAppUpdates(
   false // isDebug
 );
-// curVersion is optional if you don't provide it will automatically take from the app using rn-device-info
+// curVersion is optional if you don't provide it will automatically take from the app using react-native-device-info
 inAppUpdates.checkNeedsUpdate({ curVersion: '0.0.8' }).then((result) => {
   if (result.shouldUpdate) {
     let updateOptions: StartUpdateOptions = {};
