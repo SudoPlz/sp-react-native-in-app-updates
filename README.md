@@ -145,7 +145,7 @@ Removes an existing download status listener.
 
 ## Typical debugging workflow we had success with:
 
-Debugging in-app-updates is tricky, so arm yourself with patience, enable debug logs by passing true to our library constructor.
+Debugging in-app-updates is tricky, so arm yourself with patience, enable debug logs by passing true to our library constructor. To enable `console.log` for _release_ you may need `react-native log-android` or `react-native log-ios`.
 
 First of all use a **REAL device**.
 
