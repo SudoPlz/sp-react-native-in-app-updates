@@ -1,6 +1,6 @@
 {
   "name": "sp-react-native-in-app-updates",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Handles Android native updates in app by using play-core",
   "main": "lib/commonjs/index",
   "types": "src/index.d.ts",
