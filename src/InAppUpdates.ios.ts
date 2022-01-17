@@ -17,7 +17,7 @@ export default class InAppUpdates extends InAppUpdatesBase {
   public checkNeedsUpdate(
     checkOptions?: CheckOptions
   ): Promise<IosNeedsUpdateResponse> {
-    const { curVersion, toSemverConverter, customVersionComparator } =
+    const { curVersion, toSemverConverter, customVersionComparator, country } =
       checkOptions || {};
 
     let appVersion: string;
@@ -27,7 +27,7 @@ export default class InAppUpdates extends InAppUpdatesBase {
       appVersion = getVersion();
     }
     this.debugLog('Checking store version (iOS)');
-    return Siren.performCheck()
+    return Siren.performCheck({ country })
       .then((checkResponse: IosPerformCheckResponse) => {
         this.debugLog(
           `Received response from app store: ${JSON.stringify(checkResponse)}`
