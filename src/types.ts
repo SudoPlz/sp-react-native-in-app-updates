@@ -42,6 +42,11 @@ export type CheckOptions = {
     v1: SemverVersion,
     v2: SemverVersion
   ) => -1 | 0 | 1;
+
+  /**
+   * ISO 3166-1 country code (iOS only)
+   */
+  country?: string;
 };
 
 export type SemverVersion = string;
