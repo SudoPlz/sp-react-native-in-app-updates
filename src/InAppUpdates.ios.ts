@@ -89,7 +89,14 @@ export default class InAppUpdates extends InAppUpdatesBase {
   }
 
   startUpdate(updateOptions: IosStartUpdateOptions): Promise<void> {
-    return Promise.resolve(Siren.promptUser(updateOptions));
+    return Promise.resolve(
+      Siren.promptUser(
+        updateOptions,
+        updateOptions?.versionSpecificOptions,
+        updateOptions?.bundleId,
+        updateOptions?.country
+      )
+    );
   }
 
   installUpdate = noop;
