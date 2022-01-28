@@ -68,6 +68,27 @@ inAppUpdates.checkNeedsUpdate({ curVersion: '0.0.8' }).then((result) => {
   }
 });
 ```
+### Usage with app updates for specific country (iOS only)
+```javascript
+//                              👇🏻 (optional)
+inAppUpdates.checkNeedsUpdate({ country: 'it' }).then(result => {
+  if (result.shouldUpdate) {
+    const updateOptions: StartUpdateOptions = Platform.select({
+      ios: {
+        title: 'Update available',
+        message: "There is a new version of the app available on the App Store, do you want to update it?",
+        buttonUpgradeText: 'Update',
+        buttonCancelText: 'Cancel',
+        country: 'it', // 👈🏻 the country code for the specific version to lookup for (optional)
+      },
+      android: {
+        updateType: IAUUpdateKind.IMMEDIATE,
+      },
+    });
+    inAppUpdates.startUpdate(updateOptions);
+  }
+});
+```
 <br>
 <br>
 
