@@ -156,13 +156,23 @@ export type NeedsUpdateResponse =
   | IosNeedsUpdateResponse
   | AndroidNeedsUpdateResponse;
 
-export type IosStartUpdateOptions = {
+type IosStartUpdateOption = {
   title?: string;
   message?: string;
   buttonUpgradeText?: string;
   buttonCancelText?: string;
   forceUpgrade?: boolean;
   updateType?: never;
+  bundleId?: string;
+  country?: string;
+};
+
+type IosStartUpdateOptionWithLocalVersion = IosStartUpdateOption & {
+  localVersion: string;
+};
+
+export type IosStartUpdateOptions = IosStartUpdateOption & {
+  versionSpecificOptions?: Array<IosStartUpdateOptionWithLocalVersion>;
 };
 
 export type StartUpdateOptions =

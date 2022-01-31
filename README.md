@@ -68,6 +68,27 @@ inAppUpdates.checkNeedsUpdate({ curVersion: '0.0.8' }).then((result) => {
   }
 });
 ```
+### Usage with app updates for specific country (iOS only)
+```javascript
+//                              👇🏻 (optional)
+inAppUpdates.checkNeedsUpdate({ country: 'it' }).then(result => {
+  if (result.shouldUpdate) {
+    const updateOptions: StartUpdateOptions = Platform.select({
+      ios: {
+        title: 'Update available',
+        message: "There is a new version of the app available on the App Store, do you want to update it?",
+        buttonUpgradeText: 'Update',
+        buttonCancelText: 'Cancel',
+        country: 'it', // 👈🏻 the country code for the specific version to lookup for (optional)
+      },
+      android: {
+        updateType: IAUUpdateKind.IMMEDIATE,
+      },
+    });
+    inAppUpdates.startUpdate(updateOptions);
+  }
+});
+```
 <br>
 <br>
 
@@ -98,21 +119,25 @@ and `NeedsUpdateResponse`:
 
 <br>
 
-#### `startUpdate(checkOptions: StartUpdateOptions) : Promise`
+#### `startUpdate(updateOptions: StartUpdateOptions) : Promise`
 
 Shows pop-up asking user if they want to update, giving them the option to download said update.
+
 
 Where:
 `StartUpdateOptions `
 
-| Option | Type  | Description  |
-|---|---|---|
-| updateType (Android ONLY) | (required on Android) [IAUUpdateKind](https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/master/src/types.ts#L78) | Either `IAUUpdateKind.FLEXIBLE` or `IAUUpdateKind.IMMEDIATE`. This uses play-core below the hood, read more [here](https://developer.android.com/guide/playcore/in-app-updates) about the two modes. |
-|  title (iOS only) | (optional) String  |  The title of the alert prompt when there's a new version. (default: `Update Available`) |
-|  message (iOS only) | (optional) String  |  The content of the alert prompt when there's a new version (default: `There is an updated version available on the App Store. Would you like to upgrade?`)|
-|  buttonUpgradeText (iOS only) | (optional) String  |  The text of the confirmation button on the alert prompt (default: `Upgrade `)|
-|  buttonCancelText (iOS only) | (optional) String  |  The text of the cancelation button on the alert prompt (default: `Cancel`)|
-|  forceUpgrade (iOS only) | (optional) Boolean  |  If set to true the user won't be able to cancel the upgrade (default: false)|
+| Option                            | Type                                                                                                                          | Description                                                                                                                                                                                                                 |
+|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| updateType (Android ONLY)         | (required on Android) [IAUUpdateKind](https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/master/src/types.ts#L78) | Either `IAUUpdateKind.FLEXIBLE` or `IAUUpdateKind.IMMEDIATE`. This uses play-core below the hood, read more [here](https://developer.android.com/guide/playcore/in-app-updates) about the two modes.                        |
+| title (iOS only)                  | (optional) String                                                                                                             | The title of the alert prompt when there's a new version. (default: `Update Available`)                                                                                                                                     |
+| message (iOS only)                | (optional) String                                                                                                             | The content of the alert prompt when there's a new version (default: `There is an updated version available on the App Store. Would you like to upgrade?`)                                                                  |
+| buttonUpgradeText (iOS only)      | (optional) String                                                                                                             | The text of the confirmation button on the alert prompt (default: `Upgrade `)                                                                                                                                               |
+| buttonCancelText (iOS only)       | (optional) String                                                                                                             | The text of the cancelation button on the alert prompt (default: `Cancel`)                                                                                                                                                  |
+| forceUpgrade (iOS only)           | (optional) Boolean                                                                                                            | If set to true the user won't be able to cancel the upgrade (default: `false`)                                                                                                                                              |
+| bundleId (iOS only)               | (optional) String                                                                                                             | The id that identifies the app (ex: com.apple.mobilesafari). If undefined, it will be retrieved with react-native-device-info. (default: `undefined`)                                                                       |
+| country (iOS only)                | (optional) String                                                                                                             | If set, it will filter by country code while requesting an update, The value should be [ISO 3166-1 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) (default: `undefined`) |
+| versionSpecificOptions (iOS only) | (optional) Array\<IosStartUpdateOptionWithLocalVersion>                                                                       | An array of IosStartUpdateOptionWithLocalVersion that specify rules dynamically based on what version the device is currently running. (default: `undefined`)                                                               |
 
 <br>
 
