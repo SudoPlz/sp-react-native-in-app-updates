@@ -54,7 +54,7 @@ export default class InAppUpdates extends InAppUpdatesBase {
 
           if (vCompRes > 0) {
             this.debugLog(
-              `Compared cur version (${curVersion}) with store version (${newAppV}). The store version is higher!`
+              `Compared cur version (${appVersion}) with store version (${newAppV}). The store version is higher!`
             );
             // app store version is higher than the current version
             return {
@@ -64,12 +64,12 @@ export default class InAppUpdates extends InAppUpdatesBase {
             };
           }
           this.debugLog(
-            `Compared cur version (${curVersion}) with store version (${newAppV}). The current version is higher!`
+            `Compared cur version (${appVersion}) with store version (${newAppV}). The current version is higher!`
           );
           return {
             shouldUpdate: false,
             storeVersion: newAppV,
-            reason: `current version (${curVersion}) is already later than the latest store version (${newAppV}${
+            reason: `current version (${appVersion}) is already later than the latest store version (${newAppV}${
               toSemverConverter ? ` - originated from ${version}` : ''
             })`,
             other: { ...checkResponse },
