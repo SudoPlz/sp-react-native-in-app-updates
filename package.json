@@ -45,13 +45,13 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "react-native-device-info": "^8.1.2",
+    "react-native-device-info": "10.3.0",
     "react-native-siren": "0.0.5",
     "semver": "7.2.1",
     "underscore": "1.12.1"
   },
   "resolutions": {
-    "react-native-device-info": "^6.2.1"
+    "react-native-device-info": "10.3.0"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^11.0.0",
