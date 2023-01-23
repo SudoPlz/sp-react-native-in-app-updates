@@ -24,9 +24,9 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "bob build",
     "release": "release-it",
-    "example": "yarn --cwd example",
+    "example": "cd example && npm start",
     "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn",
+    "bootstrap": "npm run example && npm start",
     "v": "echo $npm_package_version"
   },
   "keywords": [
@@ -90,7 +90,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn lint && yarn typescript"
+      "pre-commit": "npm run lint && npm run typescript"
     }
   },
   "commitlint": {
