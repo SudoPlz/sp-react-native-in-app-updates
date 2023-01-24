@@ -38,7 +38,7 @@ On **iOS** you may need to also add the following lines in your Info.plist to be
 
 ##### Note:
 
-It uses [`react-native-device-info`](https://github.com/react-native-device-info/react-native-device-info#installation) to get `curVersion`. Install it if you want to avoid `curVersion` option
+This project uses [`react-native-device-info`](https://github.com/react-native-device-info/react-native-device-info#installation) in the background. Install it to ensure everything works correctly.
 
 ## Usage
 

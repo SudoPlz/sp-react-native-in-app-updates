@@ -1,3 +1,13 @@
+# 1.2.* -> 1.3.*
+
+### Android: Changing how we import core play dependencies.
+
+- Google is moving away from a single `com.google.android.play:core` package, and instead it’s splitting functionality into multiple packages.
+The only one we need for this library is: `com.google.android.play:app-update` so we've changed the project to only require that package.
+
+
+
+
 # 0.\*.\* -> 1.0.*
 
 BREAKING CHANGES:
