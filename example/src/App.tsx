@@ -99,7 +99,7 @@ export default class App extends React.Component<{}, AppState> {
     //   // status,
     //   bytesDownloaded,
     //   totalBytesToDownload,
-    // } = status;
+    // } = event;
     // do something
     console.log(`@@ ${JSON.stringify(event)}`);
   };
