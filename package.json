@@ -50,9 +50,6 @@
     "semver": "7.2.1",
     "underscore": "1.12.1"
   },
-  "resolutions": {
-    "react-native-device-info": "10.4.0"
-  },
   "devDependencies": {
     "@commitlint/config-conventional": "^11.0.0",
     "@react-native-community/eslint-config": "^2.0.0",

@@ -1,101 +1,52 @@
-// @ts-expect-error
-import Siren from 'react-native-siren';
-
-import { compareVersions } from './utils';
+import type { CheckOptions, IosStartUpdateOptions } from './types';
+import { getBundleId } from 'react-native-device-info';
 import InAppUpdatesBase from './InAppUpdatesBase';
-import type {
-  CheckOptions,
-  IosPerformCheckResponse,
-  IosStartUpdateOptions,
-  IosNeedsUpdateResponse,
-} from './types';
-import { getVersion } from 'react-native-device-info';
+import Siren from 'react-native-siren';
 
 const noop = () => {};
 
 export default class InAppUpdates extends InAppUpdatesBase {
-  public checkNeedsUpdate(
-    checkOptions?: CheckOptions
-  ): Promise<IosNeedsUpdateResponse> {
-    const { curVersion, toSemverConverter, customVersionComparator, country } =
-      checkOptions || {};
+  public async checkNeedsUpdate(checkOptions?: CheckOptions): Promise<any> {
+    const { country } = checkOptions || {};
 
-    let appVersion: string;
-    if (curVersion) {
-      appVersion = curVersion;
-    } else {
-      appVersion = getVersion();
-    }
+    const bundleId = getBundleId();
     this.debugLog('Checking store version (iOS)');
-    return Siren.performCheck({ country })
-      .then((checkResponse: IosPerformCheckResponse) => {
-        this.debugLog(
-          `Received response from app store: ${JSON.stringify(checkResponse)}`
-        );
-        const { version } = checkResponse || {};
 
-        if (version != null) {
-          let newAppV = `${version}`;
-          if (toSemverConverter) {
-            newAppV = toSemverConverter(version);
-            this.debugLog(
-              `Used custom semver, and converted result from store (${version}) to ${newAppV}`
-            );
-            if (!newAppV) {
-              this.throwError(
-                `Couldnt convert ${version} using your custom semver converter`,
-                'checkNeedsUpdate'
-              );
-            }
-          }
-          const vCompRes = customVersionComparator
-            ? customVersionComparator(newAppV, appVersion)
-            : compareVersions(newAppV, appVersion);
-
-          if (vCompRes > 0) {
-            this.debugLog(
-              `Compared cur version (${appVersion}) with store version (${newAppV}). The store version is higher!`
-            );
-            // app store version is higher than the current version
-            return {
-              shouldUpdate: true,
-              storeVersion: newAppV,
-              other: { ...checkResponse },
-            };
-          }
-          this.debugLog(
-            `Compared cur version (${appVersion}) with store version (${newAppV}). The current version is higher!`
-          );
-          return {
-            shouldUpdate: false,
-            storeVersion: newAppV,
-            reason: `current version (${appVersion}) is already later than the latest store version (${newAppV}${
-              toSemverConverter ? ` - originated from ${version}` : ''
-            })`,
-            other: { ...checkResponse },
-          };
-        }
-        this.debugLog('Failed to fetch a store version');
-        return {
-          shouldUpdate: false,
-          reason: 'Couldn\t fetch the latest version',
-          other: { ...checkResponse },
-        };
-      })
-      .catch((err: any) => {
-        this.debugLog(err);
-        this.throwError(err, 'checkNeedsUpdate');
+    try {
+      const response = await Siren.performCheck({
+        bundleId: bundleId,
+        country,
       });
+      this.debugLog(
+        `Received response from app store: ${JSON.stringify(response)}`
+      );
+      if (response.updateIsAvailable) {
+        this.debugLog(`The store version is higher!`);
+        return new Promise((resolve, _) => {
+          resolve({
+            shouldUpdate: true,
+            reason: 'The store version is higher!',
+            other: response,
+          });
+        });
+      } else {
+        return new Promise((resolve, _) => {
+          resolve({
+            shouldUpdate: false,
+            reason: `already latest store version`,
+            other: response,
+          });
+        });
+      }
+    } catch (error: any) {
+      this.debugLog(error);
+      this.throwError(error, 'checkNeedsUpdate');
+    }
   }
 
   startUpdate(updateOptions: IosStartUpdateOptions): Promise<void> {
     return Promise.resolve(
-      Siren.promptUser(
-        updateOptions,
-        updateOptions?.versionSpecificOptions,
-        updateOptions?.bundleId,
-        updateOptions?.country
-      )
+      Siren.promptUser(updateOptions, updateOptions?.versionSpecificOptions)
     );
   }
 
