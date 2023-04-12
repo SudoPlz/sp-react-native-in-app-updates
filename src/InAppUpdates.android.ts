@@ -1,7 +1,4 @@
 import { NativeModules, NativeEventEmitter } from 'react-native';
-import { getVersion } from 'react-native-device-info';
-
-import { compareVersions } from './utils';
 import {
   StatusUpdateEvent,
   CheckOptions,
@@ -14,6 +11,8 @@ import {
   AndroidUpdateType,
   AndroidNeedsUpdateResponse,
 } from './types';
+import { getVersion } from 'react-native-device-info';
+import { compareVersions } from './utils';
 import InAppUpdatesBase from './InAppUpdatesBase';
 
 const { SpInAppUpdates } = NativeModules;
