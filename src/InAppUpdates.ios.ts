@@ -78,7 +78,7 @@ export default class InAppUpdates extends InAppUpdatesBase {
         this.debugLog('Failed to fetch a store version');
         return {
           shouldUpdate: false,
-          reason: 'Couldn\t fetch the latest version',
+          reason: 'Couldn\'t fetch the latest version',
           other: { ...checkResponse },
         };
       })
