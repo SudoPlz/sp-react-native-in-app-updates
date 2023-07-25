@@ -40,6 +40,34 @@ On **iOS** you may need to also add the following lines in your Info.plist to be
 
 This project uses [`react-native-device-info`](https://github.com/react-native-device-info/react-native-device-info#installation) in the background. Install it to ensure everything works correctly.
 
+### Expo:
+
+In order to make it work using **Expo** you need to replace react-native-device-info dependency.
+
+1. Create `react-native-device-info.js` file in root with following content. Requires expo-constants dependency.
+```javascript
+import Constants from "expo-constants"
+
+export const getVersion = () => {
+    return Constants.expoConfig?.version
+}
+```
+2. Add alias to module-resolver configuration in babel.config.js
+```javascript
+plugins: [
+  [
+    'module-resolver',
+    {
+      root: ['.'],
+      alias: {
+        'react-native-device-info': './react-native-device-info.js'
+      }
+    }
+  ],
+  ...
+]
+```
+
 ## Usage
 
 
