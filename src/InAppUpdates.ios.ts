@@ -17,8 +17,13 @@ export default class InAppUpdates extends InAppUpdatesBase {
   public checkNeedsUpdate(
     checkOptions?: CheckOptions
   ): Promise<IosNeedsUpdateResponse> {
-    const { bundleId, curVersion, toSemverConverter, customVersionComparator, country } =
-      checkOptions || {};
+    const {
+      bundleId,
+      curVersion,
+      toSemverConverter,
+      customVersionComparator,
+      country,
+    } = checkOptions || {};
 
     let appVersion: string;
     if (curVersion) {
@@ -78,7 +83,7 @@ export default class InAppUpdates extends InAppUpdatesBase {
         this.debugLog('Failed to fetch a store version');
         return {
           shouldUpdate: false,
-          reason: 'Couldn\'t fetch the latest version',
+          reason: "Couldn't fetch the latest version",
           other: { ...checkResponse },
         };
       })

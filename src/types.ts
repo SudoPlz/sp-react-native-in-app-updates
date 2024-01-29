@@ -27,7 +27,7 @@ export type CheckOptions = {
    * Bundle ID override (iOS only)
    */
   bundleId?: string;
-  
+
   /**
    * The semver of your current app version
    */
