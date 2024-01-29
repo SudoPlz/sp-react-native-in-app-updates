@@ -24,7 +24,7 @@ export type StatusUpdateEvent = {
  */
 export type CheckOptions = {
   /**
-   * Bundle ID override
+   * Bundle ID override (iOS only)
    */
   bundleId?: string;
   
