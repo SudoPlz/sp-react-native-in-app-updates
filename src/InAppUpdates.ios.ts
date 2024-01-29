@@ -17,7 +17,7 @@ export default class InAppUpdates extends InAppUpdatesBase {
   public checkNeedsUpdate(
     checkOptions?: CheckOptions
   ): Promise<IosNeedsUpdateResponse> {
-    const { curVersion, toSemverConverter, customVersionComparator, country } =
+    const { bundleId, curVersion, toSemverConverter, customVersionComparator, country } =
       checkOptions || {};
 
     let appVersion: string;
@@ -27,7 +27,7 @@ export default class InAppUpdates extends InAppUpdatesBase {
       appVersion = getVersion();
     }
     this.debugLog('Checking store version (iOS)');
-    return Siren.performCheck({ country })
+    return Siren.performCheck({ bundleId, country })
       .then((checkResponse: IosPerformCheckResponse) => {
         this.debugLog(
           `Received response from app store: ${JSON.stringify(checkResponse)}`
@@ -78,7 +78,7 @@ export default class InAppUpdates extends InAppUpdatesBase {
         this.debugLog('Failed to fetch a store version');
         return {
           shouldUpdate: false,
-          reason: 'Couldn\t fetch the latest version',
+          reason: 'Couldn\'t fetch the latest version',
           other: { ...checkResponse },
         };
       })
