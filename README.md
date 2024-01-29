@@ -141,7 +141,7 @@ and `NeedsUpdateResponse`:
 
 | Result | Type  | Description  |
 |---|---|---|
-|  shouldUpdate  | Boolean | Wether there's a newer version on the store or not  |
+|  shouldUpdate  | Boolean | Whether there's a newer version on the store or not  |
 |  storeVersion | String  |  The latest app/play store version we're aware of |
 |  other | Object  | Other info returned from the store (differs on Android/iOS) |
 
