@@ -44,13 +44,20 @@ This project uses [`react-native-device-info`](https://github.com/react-native-d
 
 In order to make it work using **Expo** you need to replace react-native-device-info dependency.
 
-1. Create `react-native-device-info.js` file in root with following content. Requires expo-constants dependency.
+1. Create `react-native-device-info.js` file in root with following content. Requires expo-constants dependency. If you target iOS then you also need to ensure you add a bundleIdentifier to the ios section of your expo config.
 ```javascript
 import Constants from "expo-constants"
 
+export const getBundleId = () => {
+    return Constants.expoConfig?.ios?.bundleIdentifier ?? '';
+}
 export const getVersion = () => {
     return Constants.expoConfig?.version
 }
+export default {
+    getBundleId,
+    getVersion,
+};
 ```
 2. Add alias to module-resolver configuration in babel.config.js
 ```javascript
