@@ -1,5 +1,5 @@
 // @ts-expect-error
-import Siren from 'react-native-siren';
+import Siren from '../react-native-siren';
 
 import { compareVersions } from './utils';
 import InAppUpdatesBase from './InAppUpdatesBase';
