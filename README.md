@@ -26,7 +26,7 @@ Because to this day I'm not aware of any react-native libraries that use play co
 
 ##### iOS only:
 
-On **iOS** you may need to also add the following lines in your Info.plist to be able to launch the store deep link.
+On **React Native iOS** you may need to also add the following lines in your Info.plist to be able to launch the store deep link.
 
 ```
 <key>LSApplicationQueriesSchemes</key>
@@ -34,6 +34,17 @@ On **iOS** you may need to also add the following lines in your Info.plist to be
   <string>itms-apps</string>
 </array>
 ```
+For **Expo Apps** Add the following to your expo `app.json` or `app.config.json` .
+
+```
+"ios": {
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": ["itms-apps"]
+      }
+    },
+```
+Next, rebuild the native files using ```npx expo prebuild --clean && eas build -p ios```
+
 <br>
 
 ##### Note:
