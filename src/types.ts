@@ -170,6 +170,7 @@ type IosStartUpdateOption = {
   updateType?: never;
   bundleId?: string;
   country?: string;
+  reverseButtons?: boolean;
 };
 
 type IosStartUpdateOptionWithLocalVersion = IosStartUpdateOption & {
