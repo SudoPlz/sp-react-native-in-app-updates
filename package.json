@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "react-native-device-info": "10.3.0",
-    "react-native-siren": "0.0.5",
+    "react-native-siren": "^0.0.7",
     "semver": "7.2.1",
     "underscore": "1.12.1"
   },
