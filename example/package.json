@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "react": "18.2.0",
-    "react-native": "0.73.2",
+    "react-native": "0.82.1",
     "react-native-device-info": "10.3.0",
     "sp-react-native-in-app-updates": "latest"
   },
